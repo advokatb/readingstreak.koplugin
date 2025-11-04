@@ -1,0 +1,203 @@
+# Turkish translation for Reading Streak Plugin
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Reading Streak"
+msgstr "Okuma Serisi"
+
+msgid "Track your daily and weekly reading streaks similar to Kindle Streak. View calendar, set goals, and celebrate milestones."
+msgstr "Kindle Streak benzeri günlük ve haftalık okuma serinizi takip edin. Takvimi görüntüleyin, hedefler belirleyin ve kilometre taşlarını kutlayın."
+
+msgid "Congratulations! You've reached your streak goal of %1 days!"
+msgstr "Tebrikler! %1 günlük seri hedefinize ulaştınız!"
+
+msgid "Congratulations! You've met today's streak target!"
+msgstr "Tebrikler! Bugünkü seri hedefinizi tamamladınız!"
+
+msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
+msgstr "%1 Güncel Seri: %2\n\nHedefe ilerleme (%3):\n%4\n\nEn Uzun Seri: %5\nGeçerli Hafta Serisi: %6\nEn Uzun Hafta Serisi: %7\nToplam Okunan Gün: %8\n\nİlk Okuma: %9\nSon Okuma: %10"
+
+msgid "Never"
+msgstr "Asla"
+
+msgid "Set Streak Goal"
+msgstr "Seri Hedefini Ayarla"
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Set Goal"
+msgstr "Hedefi Ayarla"
+
+msgid "Streak goal set to %1 days!"
+msgstr "Seri hedefi %1 gün olarak ayarlandı!"
+
+msgid "Reading streak has been reset!"
+msgstr "Okuma serisi sıfırlandı!"
+
+msgid "View Streak"
+msgstr "Seriyi Görüntüle"
+
+msgid "Calendar View"
+msgstr "Takvim Görünümü"
+
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgid "Reset Streak"
+msgstr "Seriyi Sıfırla"
+
+msgid "Reading Streak Settings"
+msgstr "Okuma Serisi Ayarları"
+
+msgid "Streak Goal (days)"
+msgstr "Seri Hedefi (gün)"
+
+msgid "Streak Goal"
+msgstr "Seri Hedefi"
+
+msgid "Show streak notifications"
+msgstr "Seri bildirimlerini göster"
+
+msgid "Automatically track reading"
+msgstr "Okumayı otomatik takip et"
+
+msgid "Reset All Data"
+msgstr "Tüm Verileri Sıfırla"
+
+msgid "Are you sure you want to reset all reading streak data?"
+msgstr "Tüm okuma serisi verilerini sıfırlamak istediğinize emin misiniz?"
+
+msgid "Reset"
+msgstr "Sıfırla"
+
+msgid "1 day"
+msgstr "1 gün"
+
+msgid "%1 days"
+msgstr "%1 gün"
+
+msgid "1 week"
+msgstr "1 hafta"
+
+msgid "%1 weeks"
+msgstr "%1 hafta"
+
+msgid "%1 pages"
+msgstr "%1 sayfa"
+
+msgid "%1 minutes"
+msgstr "%1 dakika"
+
+msgid "%1 days read out of %2"
+msgstr "%2 günden %1 gün okundu"
+
+msgid "Goals and Tracking"
+msgstr "Hedefler ve Takip"
+
+msgid "Notifications"
+msgstr "Bildirimler"
+
+msgid "Data Management"
+msgstr "Veri Yönetimi"
+
+msgid "Daily Targets"
+msgstr "Günlük Hedefler"
+
+msgid "Daily page target: %1"
+msgstr "Günlük sayfa hedefi: %1"
+
+msgid "Daily time target: %1"
+msgstr "Günlük süre hedefi: %1"
+
+msgid "Daily Page Target"
+msgstr "Günlük Sayfa Hedefi"
+
+msgid "Daily Time Target (minutes)"
+msgstr "Günlük Süre Hedefi (dakika)"
+
+msgid "Off"
+msgstr "Kapalı"
+
+msgid "Test Notification"
+msgstr "Bildirim Testi"
+
+msgid "All reading streak data has been reset."
+msgstr "Tüm okuma serisi verileri sıfırlandı."
+
+msgid "Import from Statistics"
+msgstr "İstatistiklerden İçe Aktar"
+
+msgid "Statistics database not found."
+msgstr "İstatistik veritabanı bulunamadı."
+
+msgid "No reading statistics found in database."
+msgstr "Veritabanında okuma istatistiği bulunamadı."
+
+msgid "No new reading statistics found in database."
+msgstr "Veritabanında yeni okuma istatistiği bulunamadı."
+
+msgid "No days met the configured daily targets."
+msgstr "Ayarlanan günlük hedeflere uyan gün bulunamadı."
+
+msgid "Imported %1 reading days from statistics database."
+msgstr "İstatistik veritabanından %1 okuma günü içe aktarıldı."
+
+msgid "Imported %1 reading days; skipped %2 days below daily targets."
+msgstr "%1 okuma günü içe aktarıldı; günlük hedeflerin altında kalan %2 gün atlandı."
+
+msgid "Error importing statistics: %1"
+msgstr "İstatistikler içe aktarılırken hata: %1"
+
+msgid "Error showing calendar: %1"
+msgstr "Takvim gösterilirken hata: %1"
+
+msgid "Error showing settings: %1"
+msgstr "Ayarlar gösterilirken hata: %1"
+
+msgid "Streak Goal: %1 days"
+msgstr "Seri Hedefi: %1 gün"
+
+msgid "Calendar streak display: %1"
+msgstr "Takvim seri görünümü: %1"
+
+msgid "Days"
+msgstr "Günler"
+
+msgid "Weeks"
+msgstr "Haftalar"
+
+msgid "Both"
+msgstr "Her ikisi"
+
+msgid "Current streak: %1"
+msgstr "Geçerli seri: %1"
+
+msgid "Current week streak: %1"
+msgstr "Bu haftaki seri: %1"
+
+msgid "Longest Streak"
+msgstr "En Uzun Seri"
+
+msgid "Total Days Read"
+msgstr "Toplam Okunan Gün"
+
+msgid "First Read"
+msgstr "İlk Okuma"
+
+msgid "Last Read"
+msgstr "Son Okuma"
+
+msgid "Progress to goal"
+msgstr "Hedefe ilerleme"
+
+msgid "Current Streak"
+msgstr "Geçerli Seri"
+
+msgid "Current Week Streak"
+msgstr "Geçerli Hafta Serisi"
+
+msgid "Longest Week Streak"
+msgstr "En Uzun Hafta Serisi"

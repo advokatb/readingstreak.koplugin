@@ -90,7 +90,99 @@ function ReadingStreakSettings:showSettingsDialog()
         table.insert(settings_content, goal_button)
         
         table.insert(settings_content, VerticalSpan:new{ width = Size.padding.default })
-        
+
+        local function thresholdText(value, unit)
+            value = tonumber(value) or 0
+            if value <= 0 then
+                return _("Off")
+            end
+            if unit == "pages" then
+                return T(_("%1 pages"), value)
+            elseif unit == "minutes" then
+                return T(_("%1 minutes"), value)
+            end
+            return tostring(value)
+        end
+
+        local daily_target_title = TextWidget:new{
+            text = _("Daily Targets"),
+            face = Font:getFace("smallinfofontbold"),
+        }
+        table.insert(settings_content, daily_target_title)
+        table.insert(settings_content, VerticalSpan:new{ width = Size.padding.small })
+
+        local current_page_target = (self.reading_streak and self.reading_streak.settings and self.reading_streak.settings.daily_page_threshold) or 0
+        local page_target_button = require("ui/widget/button"):new{
+            text = T(_("Daily page target: %1"), thresholdText(current_page_target, "pages")),
+            callback = function()
+                local page_spin = SpinWidget:new{
+                    title_text = _("Daily Page Target"),
+                    value = current_page_target,
+                    value_min = 0,
+                    value_max = 2000,
+                    default_value = 0,
+                    value_step = 1,
+                    callback = function(spin)
+                        if self.reading_streak and self.reading_streak.settings and spin then
+                            self.reading_streak.settings.daily_page_threshold = spin.value
+                            if self.reading_streak.ensureDailyProgressState then
+                                self.reading_streak:ensureDailyProgressState()
+                            end
+                            if self.reading_streak.saveSettings then
+                                self.reading_streak:saveSettings()
+                            end
+                            if settings_dialog then
+                                UIManager:close(settings_dialog)
+                                UIManager:scheduleIn(0.1, function()
+                                    self:showSettingsDialog()
+                                end)
+                            end
+                        end
+                    end,
+                }
+                UIManager:show(page_spin)
+            end,
+        }
+        table.insert(settings_content, page_target_button)
+
+        local current_time_target_seconds = (self.reading_streak and self.reading_streak.settings and self.reading_streak.settings.daily_time_threshold) or 0
+        local current_time_target_minutes = math.floor((current_time_target_seconds + 59) / 60)
+        local time_target_button = require("ui/widget/button"):new{
+            text = T(_("Daily time target: %1"), thresholdText(current_time_target_minutes, "minutes")),
+            callback = function()
+                local time_spin = SpinWidget:new{
+                    title_text = _("Daily Time Target (minutes)"),
+                    value = current_time_target_minutes,
+                    value_min = 0,
+                    value_max = 600,
+                    default_value = 0,
+                    value_step = 5,
+                    callback = function(spin)
+                        if self.reading_streak and self.reading_streak.settings and spin then
+                            local new_seconds = spin.value * 60
+                            self.reading_streak.settings.daily_time_threshold = new_seconds
+                            if self.reading_streak.ensureDailyProgressState then
+                                self.reading_streak:ensureDailyProgressState()
+                            end
+                            if self.reading_streak.saveSettings then
+                                self.reading_streak:saveSettings()
+                            end
+                            if settings_dialog then
+                                UIManager:close(settings_dialog)
+                                UIManager:scheduleIn(0.1, function()
+                                    self:showSettingsDialog()
+                                end)
+                            end
+                        end
+                    end,
+                }
+                UIManager:show(time_spin)
+            end,
+        }
+        table.insert(settings_content, time_target_button)
+
+        table.insert(settings_content, VerticalSpan:new{ width = Size.padding.default })
+
         local calendar_display_mode = (self.reading_streak and self.reading_streak.settings and self.reading_streak.settings.calendar_streak_display) or "both"
         local calendar_display_button = require("ui/widget/button"):new{
             text = T(_("Calendar streak display: %1"), 

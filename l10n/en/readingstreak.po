@@ -14,6 +14,9 @@ msgstr "Track your daily and weekly reading streaks similar to Kindle Streak. Vi
 msgid "Congratulations! You've reached your streak goal of %1 days!"
 msgstr "Congratulations! You've reached your streak goal of %1 days!"
 
+msgid "Congratulations! You've met today's streak target!"
+msgstr "Congratulations! You've met today's streak target!"
+
 msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
 msgstr "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
 
@@ -83,6 +86,12 @@ msgstr "1 week"
 msgid "%1 weeks"
 msgstr "%1 weeks"
 
+msgid "%1 pages"
+msgstr "%1 pages"
+
+msgid "%1 minutes"
+msgstr "%1 minutes"
+
 msgid "%1 days read out of %2"
 msgstr "%1 days read out of %2"
 
@@ -94,6 +103,24 @@ msgstr "Notifications"
 
 msgid "Data Management"
 msgstr "Data Management"
+
+msgid "Daily Targets"
+msgstr "Daily Targets"
+
+msgid "Daily page target: %1"
+msgstr "Daily page target: %1"
+
+msgid "Daily time target: %1"
+msgstr "Daily time target: %1"
+
+msgid "Daily Page Target"
+msgstr "Daily Page Target"
+
+msgid "Daily Time Target (minutes)"
+msgstr "Daily Time Target (minutes)"
+
+msgid "Off"
+msgstr "Off"
 
 msgid "Test Notification"
 msgstr "Test Notification"
@@ -115,6 +142,9 @@ msgstr "No new reading statistics found in database."
 
 msgid "Imported %1 reading days from statistics database."
 msgstr "Imported %1 reading days from statistics database."
+
+msgid "Imported %1 reading days; skipped %2 days below daily targets."
+msgstr "Imported %1 reading days; skipped %2 days below daily targets."
 
 msgid "Error importing statistics: %1"
 msgstr "Error importing statistics: %1"

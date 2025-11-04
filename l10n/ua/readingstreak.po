@@ -77,6 +77,12 @@ msgstr "1 день"
 msgid "%1 days"
 msgstr "%1 днів"
 
+msgid "%1 pages"
+msgstr "%1 сторінок"
+
+msgid "%1 minutes"
+msgstr "%1 хвилин"
+
 msgid "1 week"
 msgstr "1 тиждень"
 
@@ -87,7 +93,25 @@ msgid "%1 days read out of %2"
 msgstr "%1 днів прочитано з %2"
 
 msgid "Goals and Tracking"
-msgstr "Мета та відстеження"
+msgstr "Мети та відстеження"
+
+msgid "Daily Targets"
+msgstr "Щоденні цілі"
+
+msgid "Daily page target: %1"
+msgstr "Щоденна ціль за сторінками: %1"
+
+msgid "Daily time target: %1"
+msgstr "Щоденна ціль за часом: %1"
+
+msgid "Daily Page Target"
+msgstr "Щоденна ціль за сторінками"
+
+msgid "Daily Time Target (minutes)"
+msgstr "Щоденна ціль за часом (хвилини)"
+
+msgid "Off"
+msgstr "Вимкнено"
 
 msgid "Notifications"
 msgstr "Сповіщення"
@@ -113,8 +137,14 @@ msgstr "У базі даних не знайдено статистики чит
 msgid "No new reading statistics found in database."
 msgstr "У базі даних не знайдено нової статистики читання."
 
+msgid "No days met the configured daily targets."
+msgstr "Жоден день не відповідає налаштованим щоденним цілям."
+
 msgid "Imported %1 reading days from statistics database."
 msgstr "Імпортовано %1 днів читання з бази даних статистики."
+
+msgid "Imported %1 reading days; skipped %2 days below daily targets."
+msgstr "Імпортовано %1 днів читання; пропущено %2 днів, що не досягли щоденних цілей."
 
 msgid "Error importing statistics: %1"
 msgstr "Помилка при імпорті статистики: %1"

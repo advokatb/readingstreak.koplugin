@@ -13,6 +13,10 @@ local SQ3 = require("lua-ljsqlite3/init")
 local _ = require("readingstreak_gettext")
 local T = require("ffi/util").template
 
+local DEFAULT_DAILY_PAGE_THRESHOLD = 0
+local DEFAULT_DAILY_TIME_THRESHOLD = 0 -- seconds
+local MAX_TRACKED_INTERVAL = 45 * 60
+
 local ReadingStreak = WidgetContainer:extend{
     name = "readingstreak",
     is_doc_only = false,
@@ -21,6 +25,9 @@ local ReadingStreak = WidgetContainer:extend{
 function ReadingStreak:init()
     self.settings_file = DataStorage:getSettingsDir() .. "/reading_streak.lua"
     self:loadSettings()
+    self.last_page_update_time = nil
+    self.last_page_number = nil
+    self:ensureDailyProgressState()
 
     if self.ui and self.ui.menu then
         self.ui.menu:registerToMainMenu(self)
@@ -65,13 +72,19 @@ function ReadingStreak:init()
 end
 
 function ReadingStreak:onReaderReady()
+    self:ensureDailyProgressState()
+    self.last_page_update_time = os.time()
+    self.last_page_number = nil
     if self.settings.auto_track ~= false then
-        self:checkStreak()
+        if not self:hasActiveThresholds() then
+            self:checkStreak()
+        end
     end
 end
 
 function ReadingStreak:onPageUpdate(pageno)
     if self.settings.auto_track ~= false then
+        self:updateDailyProgress(pageno)
         self:checkStreak()
     end
 end
@@ -115,6 +128,15 @@ function ReadingStreak:loadSettings()
         if not self.settings.calendar_streak_display then
             self.settings.calendar_streak_display = "both"
         end
+        if self.settings.daily_page_threshold == nil then
+            self.settings.daily_page_threshold = DEFAULT_DAILY_PAGE_THRESHOLD
+        end
+        if self.settings.daily_time_threshold == nil then
+            self.settings.daily_time_threshold = DEFAULT_DAILY_TIME_THRESHOLD
+        end
+        if not self.settings.daily_progress or type(self.settings.daily_progress) ~= "table" then
+            self.settings.daily_progress = {}
+        end
     else
         self.settings = {
             current_streak = 0,
@@ -129,6 +151,9 @@ function ReadingStreak:loadSettings()
             show_notifications = true,
             auto_track = true,
             calendar_streak_display = "both",
+            daily_page_threshold = DEFAULT_DAILY_PAGE_THRESHOLD,
+            daily_time_threshold = DEFAULT_DAILY_TIME_THRESHOLD,
+            daily_progress = {},
         }
     end
 end
@@ -175,7 +200,7 @@ function ReadingStreak:dateDiffDays(date1, date2)
 end
 
 function ReadingStreak:getWeekNumber(date_str)
-    local y, m, d = date_str:match("(%d+)-(%d+)-(%d+)")
+    local y, m, d = date_str:match("(%d+)%-(%d+)%-(%d+)")
     local t = os.time({year=y, month=m, day=d})
     local date = os.date("*t", t)
     local wday = date.wday == 1 and 7 or date.wday - 1
@@ -186,6 +211,117 @@ function ReadingStreak:getWeekNumber(date_str)
     local week_start_offset = (wday - jan1wday + 7) % 7
     local week_num = math.floor((days_from_start + week_start_offset) / 7) + 1
     return date.year .. "-W" .. string.format("%02d", week_num)
+end
+
+function ReadingStreak:hasActiveThresholds()
+    local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
+    local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
+    return page_threshold > 0 or time_threshold > 0
+end
+
+function ReadingStreak:resetDailyProgress(today)
+    self.settings.daily_progress = {
+        date = today,
+        pages = 0,
+        duration = 0,
+        completed = false,
+        notified = false,
+        notified_date = nil,
+    }
+    self.last_page_update_time = os.time()
+    self.last_page_number = nil
+    self:saveSettings()
+end
+
+function ReadingStreak:ensureDailyProgressState()
+    local today = self:getTodayString()
+    local progress = self.settings.daily_progress
+    if type(progress) ~= "table" or progress.date ~= today then
+        self:resetDailyProgress(today)
+        return
+    end
+    if progress.pages == nil then
+        progress.pages = 0
+    end
+    if progress.duration == nil then
+        progress.duration = 0
+    end
+    if progress.completed == nil then
+        progress.completed = false
+    end
+    if progress.notified == nil then
+        progress.notified = false
+    end
+    if progress.notified_date ~= today then
+        progress.notified = false
+        progress.notified_date = today
+    end
+end
+
+function ReadingStreak:updateDailyProgress(pageno)
+    self:ensureDailyProgressState()
+    local progress = self.settings.daily_progress
+    local now = os.time()
+    local progress_changed = false
+
+    if self.last_page_number and pageno and pageno ~= self.last_page_number then
+        if self.last_page_update_time then
+            local diff = now - self.last_page_update_time
+            if diff > 0 then
+                diff = math.min(diff, MAX_TRACKED_INTERVAL)
+                progress.duration = (progress.duration or 0) + diff
+                progress_changed = true
+            end
+        end
+        progress.pages = (progress.pages or 0) + 1
+        progress_changed = true
+    end
+
+    if pageno then
+        self.last_page_number = pageno
+    end
+    self.last_page_update_time = now
+
+    if progress_changed and not progress.completed then
+        self:saveSettings()
+    end
+end
+
+function ReadingStreak:hasMetDailyGoal()
+    local progress = self.settings.daily_progress or {}
+    local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
+    local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
+
+    if page_threshold > 0 then
+        if (progress.pages or 0) < page_threshold then
+            return false
+        end
+    end
+
+    if time_threshold > 0 then
+        if (progress.duration or 0) < time_threshold then
+            return false
+        end
+    end
+
+    return true
+end
+
+function ReadingStreak:showDailyGoalAchievementMessage()
+    if not self:hasActiveThresholds() then
+        return
+    end
+    if self.settings.show_notifications and not (self.settings.daily_progress and self.settings.daily_progress.notified) then
+        UIManager:show(InfoMessage:new{
+            text = _("Congratulations! You've met today's streak target!"),
+            timeout = nil,
+        })
+        if self.settings.daily_progress then
+            self.settings.daily_progress.notified = true
+            self.settings.daily_progress.notified_date = self:getTodayString()
+            self:saveSettings()
+        end
+    end
 end
 
 function ReadingStreak:cleanReadingHistory()
@@ -354,7 +490,15 @@ end
 function ReadingStreak:checkStreak()
     local today = self:getTodayString()
 
+    self:ensureDailyProgressState()
+    if self.settings.daily_progress and self.settings.daily_progress.completed then
+        return
+    end
+
     if self.settings.last_read_date == today then
+        if self.settings.daily_progress then
+            self.settings.daily_progress.completed = true
+        end
         return
     end
 
@@ -367,17 +511,37 @@ function ReadingStreak:checkStreak()
     end
 
     if not found_today then
+        if not self:hasMetDailyGoal() then
+            return
+        end
         table.insert(self.settings.reading_history, today)
         table.sort(self.settings.reading_history)
         self:recalculateStreakFromHistory()
         self.settings.last_read_date = today
+        if self.settings.daily_progress then
+            self.settings.daily_progress.completed = true
+            if self.settings.show_notifications ~= false and not self.settings.daily_progress.notified then
+                self:showDailyGoalAchievementMessage()
+            end
+        else
+            if self.settings.show_notifications ~= false then
+                self:showDailyGoalAchievementMessage()
+            end
+        end
         self:saveSettings()
-        
+
         if self.settings.show_notifications and self.settings.current_streak == self.settings.streak_goal then
             UIManager:show(InfoMessage:new{
                 text = T(_("Congratulations! You've reached your streak goal of %1 days!"), self.settings.streak_goal),
                 timeout = 5,
             })
+        end
+    else
+        if self.settings.daily_progress then
+            self.settings.daily_progress.completed = true
+            if self.settings.show_notifications ~= false and not self.settings.daily_progress.notified then
+                self.settings.daily_progress.notified = true
+            end
         end
     end
 end
@@ -511,24 +675,41 @@ function ReadingStreak:importFromStatistics()
         end
         
         local sql_stmt = [[
-            SELECT DISTINCT strftime('%Y-%m-%d', start_time, 'unixepoch', 'localtime') AS dates
-            FROM page_stat
-            ORDER BY dates ASC
+            SELECT date,
+                   COUNT(*) AS page_count,
+                   SUM(duration) AS total_duration
+            FROM (
+                SELECT strftime('%Y-%m-%d', start_time, 'unixepoch', 'localtime') AS date,
+                       id_book,
+                       page,
+                       SUM(duration) AS duration
+                FROM page_stat
+                GROUP BY date, id_book, page
+            )
+            GROUP BY date
+            ORDER BY date ASC
         ]]
-        
+
         local stmt = conn:prepare(sql_stmt)
-        local dates_list = {}
-        local row = stmt:step()
-        while row do
-            if row and row[1] then
-                table.insert(dates_list, row[1])
+        local stats_rows = {}
+        while true do
+            local row = stmt:step()
+            if not row then
+                break
             end
-            row = stmt:step()
+            local date_str = row[1]
+            if date_str then
+                local pages = tonumber(row[2]) or 0
+                local duration = tonumber(row[3]) or 0
+                table.insert(stats_rows, {
+                    date = date_str,
+                    pages = pages,
+                    duration = duration,
+                })
+            end
         end
         stmt:close()
-        
-        local result = {[1] = dates_list}
-        
+
         local imported_dates = {}
         local existing_dates = {}
         
@@ -538,7 +719,7 @@ function ReadingStreak:importFromStatistics()
             end
         end
         
-        if not result or not result[1] or #result[1] == 0 then
+        if #stats_rows == 0 then
             conn:close()
             UIManager:show(InfoMessage:new{
                 text = _("No reading statistics found in database."),
@@ -547,25 +728,49 @@ function ReadingStreak:importFromStatistics()
             return
         end
         
-        local dates_column = result[1]
         local new_dates_count = 0
+        local skipped_threshold_count = 0
+        local thresholds_active = self:hasActiveThresholds()
+        local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
+        local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
         
-        for i = 1, #dates_column do
-            local date_str = dates_column[i]
+        for i = 1, #stats_rows do
+            local date_entry = stats_rows[i]
+            local date_str = date_entry.date
             local matches = date_str and type(date_str) == "string" and date_str:match("^%d%d%d%d%-%d%d%-%d%d$") ~= nil
             
             if date_str and type(date_str) == "string" and matches and not existing_dates[date_str] then
-                table.insert(imported_dates, date_str)
-                existing_dates[date_str] = true
-                new_dates_count = new_dates_count + 1
+                local meets_threshold = true
+                if thresholds_active then
+                    if page_threshold > 0 and (date_entry.pages or 0) < page_threshold then
+                        meets_threshold = false
+                    end
+                    if time_threshold > 0 and (date_entry.duration or 0) < time_threshold then
+                        meets_threshold = false
+                    end
+                end
+
+                if meets_threshold then
+                    table.insert(imported_dates, date_str)
+                    existing_dates[date_str] = true
+                    new_dates_count = new_dates_count + 1
+                elseif thresholds_active then
+                    skipped_threshold_count = skipped_threshold_count + 1
+                end
             end
         end
         
         conn:close()
         
         if new_dates_count == 0 then
+            local message
+            if thresholds_active and skipped_threshold_count > 0 then
+                message = _("No days met the configured daily targets.")
+            else
+                message = _("No new reading statistics found in database.")
+            end
             UIManager:show(InfoMessage:new{
-                text = _("No new reading statistics found in database."),
+                text = message,
                 timeout = 3,
             })
             return
@@ -582,8 +787,14 @@ function ReadingStreak:importFromStatistics()
         
         self:saveSettings()
         
+        local info_text
+        if thresholds_active and skipped_threshold_count > 0 then
+            info_text = T(_("Imported %1 reading days; skipped %2 days below daily targets."), new_dates_count, skipped_threshold_count)
+        else
+            info_text = T(_("Imported %1 reading days from statistics database."), new_dates_count)
+        end
         UIManager:show(InfoMessage:new{
-            text = T(_("Imported %1 reading days from statistics database."), new_dates_count),
+            text = info_text,
             timeout = 5,
         })
     end)

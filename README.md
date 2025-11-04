@@ -60,6 +60,8 @@ Access settings via **Reading Streak** > **Settings**. The settings dialog is or
 
 - **Streak Goal** (button) - Tap to set your daily reading streak goal (1-365 days). When you reach this goal, you'll receive a congratulatory notification (if notifications are enabled).
 
+- **Daily Targets** (button) - Configure optional daily minimums for pages read and/or minutes spent reading. A day only counts toward the streak once both configured thresholds are met, and you'll see a congratulatory popup the first time you hit the target each day. Choose "Off" to disable either threshold.
+
 - **Calendar streak display** (button) - Tap to choose how the current streak is displayed in the calendar view. Options:
   - **Days** - Show only daily streak (e.g., "Current streak: 33 days")
   - **Weeks** - Show only weekly streak (e.g., "Current week streak: 6 weeks")
@@ -68,6 +70,8 @@ Access settings via **Reading Streak** > **Settings**. The settings dialog is or
 ### Notifications
 
 - **Show streak notifications** - Enable/disable notifications when you reach your streak goal. When enabled, you'll see a notification popup when your current streak equals your goal.
+
+- **Daily target notification** - When daily targets are enabled and notifications are on, the "Today's streak target" popup stays on screen until you dismiss it, ensuring you don't miss the achievement.
 
 - **Automatically track reading** - Enable/disable automatic tracking when books are opened. When enabled, the plugin automatically records reading activity when you open a book. When disabled, you'll need to manually trigger tracking (this may require restarting KOReader for changes to take effect).
 

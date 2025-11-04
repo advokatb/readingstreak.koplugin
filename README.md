@@ -51,6 +51,8 @@ If you've been using KOReader for a while, you can import your historical readin
 - Only new dates (not already in your reading history) will be imported
 - Your current streak will be recalculated after import
 
+**Important:** If you plan to use daily reading targets (pages/minutes thresholds), you should configure these settings in **Goals and Tracking** → **Daily Targets** before importing statistics. The import will respect your configured thresholds when determining which reading sessions qualify for streak tracking.
+
 The import feature is useful if you want to:
 - Backfill your reading history with past reading sessions
 - Recover reading data after reinstalling the plugin

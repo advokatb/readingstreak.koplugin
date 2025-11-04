@@ -23,6 +23,16 @@ local Screen = require("device").screen
 local _ = require("readingstreak_gettext")
 local T = require("ffi/util").template
 
+-- Verify Widget is available
+if not Widget or type(Widget) ~= "table" then
+    error("Widget module not available or invalid")
+end
+
+-- Verify Widget:extend is available
+if not Widget.extend or type(Widget.extend) ~= "function" then
+    error("Widget:extend method not available")
+end
+
 local ReadingStreakSettings = Widget:extend{
     reading_streak = nil,
 }

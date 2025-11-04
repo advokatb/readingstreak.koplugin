@@ -55,25 +55,48 @@ jobs:
         id: changelog
         run: |
           VERSION=${{ steps.version.outputs.version }}
+          echo "Extracting changelog for version: $VERSION"
+          
           # Extract changelog entry for this version from CHANGELOG.md
+          # Use awk to extract from ## [VERSION] to next ## or EOF
           if awk "/^## \[$VERSION\]/,/^## \[/" CHANGELOG.md | sed '$d' > release_notes.txt; then
-            echo "Extracted changelog for version $VERSION"
-          elif awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md > release_notes.txt; then
-            echo "Extracted changelog for version $VERSION (last entry)"
+            if [ -s release_notes.txt ]; then
+              echo "✓ Successfully extracted changelog for version $VERSION"
+            else
+              echo "⚠ Extracted changelog is empty, trying alternative method"
+              awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md | sed '/^## \[/d' > release_notes.txt
+            fi
           else
-            echo "## Version $VERSION" > release_notes.txt
-            echo "No changelog entry found for this version." >> release_notes.txt
+            echo "⚠ First extraction method failed, trying alternative"
+            awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md | sed '/^## \[/d' > release_notes.txt
           fi
+          
+          # Fallback if still empty
+          if [ ! -s release_notes.txt ]; then
+            echo "⚠ No changelog entry found, creating default"
+            echo "## Version $VERSION" > release_notes.txt
+            echo "" >> release_notes.txt
+            echo "See [CHANGELOG.md](CHANGELOG.md) for details." >> release_notes.txt
+          fi
+          
           echo "--- Release Notes ---"
           cat release_notes.txt
           echo "--- End Release Notes ---"
+          echo "File size: $(wc -c < release_notes.txt) bytes"
+          
+          # Store changelog content in output for use in release step
+          {
+            echo 'body<<EOF'
+            cat release_notes.txt
+            echo EOF
+          } >> $GITHUB_OUTPUT
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             ${{ env.archive_name }}
-          body_path: release_notes.txt
+          body: ${{ steps.changelog.outputs.body }}
           draft: false
           prerelease: false
         env:

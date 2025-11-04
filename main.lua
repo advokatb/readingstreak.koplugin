@@ -23,6 +23,10 @@ local ReadingStreak = WidgetContainer:extend{
 }
 
 function ReadingStreak:init()
+    -- Log plugin version on load
+    local version = self.version or "unknown"
+    logger.info("ReadingStreak plugin loaded", {version = version})
+    
     self.settings_file = DataStorage:getSettingsDir() .. "/reading_streak.lua"
     self:loadSettings()
     self.last_page_update_time = nil
@@ -633,14 +637,63 @@ end
 
 function ReadingStreak:showSettings()
     local ok, err = pcall(function()
-        local ReadingStreakSettings = require("settings")
+        -- Try to load settings module
+        local ReadingStreakSettings, load_err = require("settings")
+        if not ReadingStreakSettings then
+            error("Failed to load settings module: " .. tostring(load_err))
+        end
+        
+        -- Verify it's a table/class
+        if type(ReadingStreakSettings) ~= "table" then
+            error("Settings module returned invalid type: " .. type(ReadingStreakSettings))
+        end
+        
+        -- Check if :new method exists
+        if type(ReadingStreakSettings.new) ~= "function" then
+            error("ReadingStreakSettings:new method not available")
+        end
+        
+        -- Create instance
         local settings_dialog = ReadingStreakSettings:new{
             reading_streak = self,
         }
-        settings_dialog:showSettingsDialog()
+        if not settings_dialog then
+            error("Failed to create settings dialog instance")
+        end
+        
+        -- Check if method exists before calling (check both direct and via metatable)
+        local show_method = rawget(settings_dialog, "showSettingsDialog")
+        if not show_method or type(show_method) ~= "function" then
+            -- Try to get from metatable
+            local mt = getmetatable(settings_dialog)
+            if mt then
+                if mt.__index then
+                    if type(mt.__index) == "table" then
+                        show_method = rawget(mt.__index, "showSettingsDialog")
+                    elseif type(mt.__index) == "function" then
+                        -- Try calling __index
+                        local ok, result = pcall(mt.__index, settings_dialog, "showSettingsDialog")
+                        if ok and type(result) == "function" then
+                            show_method = result
+                        end
+                    end
+                end
+                -- Also check if method is in the class itself
+                if not show_method or type(show_method) ~= "function" then
+                    show_method = rawget(ReadingStreakSettings, "showSettingsDialog")
+                end
+            end
+        end
+        
+        if not show_method or type(show_method) ~= "function" then
+            error("showSettingsDialog method not available. Module: " .. tostring(ReadingStreakSettings) .. ", Instance: " .. tostring(settings_dialog) .. ", Type: " .. type(settings_dialog))
+        end
+        
+        -- Call the method directly with self binding
+        show_method(settings_dialog)
     end)
     if not ok then
-        logger.err("ReadingStreak: Error showing settings", {error = tostring(err)})
+        logger.err("ReadingStreak: Error showing settings", {error = tostring(err), traceback = debug.traceback()})
         UIManager:show(InfoMessage:new{
             text = T(_("Error showing settings: %1"), tostring(err)),
             timeout = 5,

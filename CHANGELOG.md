@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.1] - 2025-02-04
 
+### Changed
+- Plugin menu now appears in Tools section
+
 ### Fixed
 - Fixed calendar view module name conflict with built-in statistics plugin
 - Fixed settings dialog require error (ReadingStreakSettings properly defined)

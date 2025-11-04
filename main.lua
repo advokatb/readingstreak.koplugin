@@ -31,6 +31,7 @@ function ReadingStreak:init()
 
     if self.ui and self.ui.menu then
         self.ui.menu:registerToMainMenu(self)
+        self._menu_registered = true
     end
 
     local had_cleanup = self:cleanReadingHistory()
@@ -72,6 +73,12 @@ function ReadingStreak:init()
 end
 
 function ReadingStreak:onReaderReady()
+    -- Ensure menu is registered in reader mode (in case it wasn't available during init)
+    if self.ui and self.ui.menu and not self._menu_registered then
+        self.ui.menu:registerToMainMenu(self)
+        self._menu_registered = true
+    end
+    
     self:ensureDailyProgressState()
     self.last_page_update_time = os.time()
     self.last_page_number = nil
@@ -811,6 +818,7 @@ end
 function ReadingStreak:addToMainMenu(menu_items)
     menu_items.reading_streak = {
         text = _("Reading Streak"),
+        sorting_hint = "tools",
         sub_item_table = {
             {
                 text = _("View Streak"),

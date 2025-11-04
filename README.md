@@ -27,12 +27,16 @@ The plugin automatically tracks reading when you open books (if "Automatically t
 ### Viewing Your Streak
 
 Access your reading streak information via:
-- **Reading Streak** > **View Streak** - Shows your current streak, progress toward goal, longest streak, weekly streaks, total days read, and first/last reading dates.
+- **Tools** → **Reading Streak** → **View Streak**
+
+Shows your current streak, progress toward goal, longest streak, weekly streaks, total days read, and first/last reading dates.
 
 ### Calendar View
 
 View your reading history visually:
-- **Reading Streak** > **Calendar View** - Displays a monthly calendar with:
+- **Tools** → **Reading Streak** → **Calendar View**
+
+Displays a monthly calendar with:
   - Days you've read highlighted in gray
   - Current month's reading statistics (days read out of total days in month)
   - Current streak display (days and/or weeks, configurable in settings)
@@ -42,7 +46,7 @@ View your reading history visually:
 ### Import from Statistics
 
 If you've been using KOReader for a while, you can import your historical reading data:
-- **Reading Streak** > **Settings** > **Data Management** > **Import from Statistics**
+- **Tools** → **Reading Streak** → **Settings** → **Data Management** → **Import from Statistics**
 - This function reads KOReader's `statistics.sqlite3` database and imports all unique reading dates
 - Only new dates (not already in your reading history) will be imported
 - Your current streak will be recalculated after import
@@ -54,7 +58,10 @@ The import feature is useful if you want to:
 
 ## Settings
 
-Access settings via **Reading Streak** > **Settings**. The settings dialog is organized into sections:
+Access settings via:
+- **Tools** → **Reading Streak** → **Settings**
+
+The settings dialog is organized into sections:
 
 ### Goals and Tracking
 

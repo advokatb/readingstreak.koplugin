@@ -607,7 +607,7 @@ end
 
 function ReadingStreak:showCalendar()
     local ok, err = pcall(function()
-        local CalendarView = require("calendarview")
+        local CalendarView = require("readingstreak_calendarview")
         local calendar = CalendarView:new{
             reading_streak = self,
             width = Screen:getWidth(),

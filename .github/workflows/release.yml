@@ -56,8 +56,17 @@ jobs:
         run: |
           VERSION=${{ steps.version.outputs.version }}
           # Extract changelog entry for this version from CHANGELOG.md
-          awk "/^## \[$VERSION\]/,/^## \[/" CHANGELOG.md | sed '$d' > release_notes.txt || awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md > release_notes.txt
+          if awk "/^## \[$VERSION\]/,/^## \[/" CHANGELOG.md | sed '$d' > release_notes.txt; then
+            echo "Extracted changelog for version $VERSION"
+          elif awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md > release_notes.txt; then
+            echo "Extracted changelog for version $VERSION (last entry)"
+          else
+            echo "## Version $VERSION" > release_notes.txt
+            echo "No changelog entry found for this version." >> release_notes.txt
+          fi
+          echo "--- Release Notes ---"
           cat release_notes.txt
+          echo "--- End Release Notes ---"
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1

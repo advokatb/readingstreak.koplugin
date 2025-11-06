@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+- Settings dialog now automatically falls back to inline menu on devices where dialog fails to load ([#2](https://github.com/advokatb/readingstreak.koplugin/issues/2), reported by @apa-u)
+- Improved settings dialog error handling with automatic fallback mechanism
+
+### Added
+- Inline settings menu with checkboxes and spinners (available via `USE_INLINE_SETTINGS = true` in main.lua)
+- Option to use inline menu instead of dialog by setting `USE_INLINE_SETTINGS = true` in main.lua for users experiencing dialog issues
+
 ## [1.1.1] - 2025-02-04
 
 ### Changed

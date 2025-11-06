@@ -17,6 +17,9 @@ local DEFAULT_DAILY_PAGE_THRESHOLD = 0
 local DEFAULT_DAILY_TIME_THRESHOLD = 0 -- seconds
 local MAX_TRACKED_INTERVAL = 45 * 60
 
+-- Set to true to use inline menu for settings, false to use dialog window
+local USE_INLINE_SETTINGS = false
+
 local ReadingStreak = WidgetContainer:extend{
     name = "readingstreak",
     is_doc_only = false,
@@ -26,6 +29,7 @@ function ReadingStreak:init()
     -- Log plugin version on load
     local version = self.version or "unknown"
     logger.info("ReadingStreak plugin loaded", {version = version})
+    
     self.settings_file = DataStorage:getSettingsDir() .. "/reading_streak.lua"
     self:loadSettings()
     self.last_page_update_time = nil
@@ -643,11 +647,17 @@ function ReadingStreak:showSettings()
         settings_dialog:showSettingsDialog()
     end)
     if not ok then
-        logger.err("ReadingStreak: Error showing settings", {error = tostring(err)})
-        UIManager:show(InfoMessage:new{
-            text = T(_("Error showing settings: %1"), tostring(err)),
-            timeout = 5,
-        })
+        logger.err("ReadingStreak: Error showing settings dialog, falling back to inline menu", {error = tostring(err)})
+        -- Fallback to inline menu if dialog fails
+        local Menu = require("ui/widget/menu")
+        local inline_settings = require("settings_inline")
+        local items = inline_settings.build(self)
+        
+        local settings_menu = Menu:new{
+            title = _("Reading Streak Settings"),
+            item_table = items,
+        }
+        UIManager:show(settings_menu)
     end
 end
 
@@ -837,9 +847,14 @@ function ReadingStreak:addToMainMenu(menu_items)
             },
             {
                 text = _("Settings"),
-                callback = function()
+                -- Use inline submenu if USE_INLINE_SETTINGS is true, otherwise use dialog
+                sub_item_table_func = USE_INLINE_SETTINGS and function()
+                    local inline_settings = require("settings_inline")
+                    return inline_settings.build(self)
+                end or nil,
+                callback = not USE_INLINE_SETTINGS and function()
                     self:showSettings()
-                end,
+                end or nil,
             },
         }
     }

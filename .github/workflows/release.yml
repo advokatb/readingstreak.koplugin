@@ -58,22 +58,41 @@ jobs:
           echo "Extracting changelog for version: $VERSION"
           
           # Extract changelog entry for this version from CHANGELOG.md
-          # Use awk to extract from ## [VERSION] to next ## or EOF
-          if awk "/^## \[$VERSION\]/,/^## \[/" CHANGELOG.md | sed '$d' > release_notes.txt; then
-            if [ -s release_notes.txt ]; then
-              echo "✓ Successfully extracted changelog for version $VERSION"
-            else
-              echo "⚠ Extracted changelog is empty, trying alternative method"
-              awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md | sed '/^## \[/d' > release_notes.txt
-            fi
+          # Use a more reliable method: find the version section and extract until next version
+          START_LINE=$(grep -n "^## \[$VERSION\]" CHANGELOG.md | head -1 | cut -d: -f1)
+          
+          if [ -z "$START_LINE" ]; then
+            echo "⚠ No changelog entry found for version $VERSION"
+            echo "## Version $VERSION" > release_notes.txt
+            echo "" >> release_notes.txt
+            echo "See [CHANGELOG.md](CHANGELOG.md) for details." >> release_notes.txt
           else
-            echo "⚠ First extraction method failed, trying alternative"
-            awk "/^## \[$VERSION\]/,EOF" CHANGELOG.md | sed '/^## \[/d' > release_notes.txt
+            echo "Found changelog entry at line $START_LINE"
+            
+            # Find the next version header (if any)
+            NEXT_LINE=$(awk -v start="$START_LINE" 'NR > start && /^## \[/ {print NR; exit}' CHANGELOG.md)
+            
+            if [ -z "$NEXT_LINE" ]; then
+              # No next version found, extract to end of file
+              sed -n "${START_LINE},\$p" CHANGELOG.md > release_notes.txt
+            else
+              # Extract up to (but not including) next version
+              END_LINE=$((NEXT_LINE - 1))
+              sed -n "${START_LINE},${END_LINE}p" CHANGELOG.md > release_notes.txt
+            fi
+            
+            # Remove the version header line (first line: "## [VERSION] - DATE")
+            sed -i '1d' release_notes.txt
+            
+            # Remove trailing empty lines using perl (more reliable than sed)
+            perl -i -pe 'chomp if eof' release_notes.txt
+            # Remove any remaining trailing newlines
+            perl -i -0pe 's/\n+$//' release_notes.txt
           fi
           
-          # Fallback if still empty
+          # Verify we have content
           if [ ! -s release_notes.txt ]; then
-            echo "⚠ No changelog entry found, creating default"
+            echo "⚠ Extracted changelog is empty, creating default"
             echo "## Version $VERSION" > release_notes.txt
             echo "" >> release_notes.txt
             echo "See [CHANGELOG.md](CHANGELOG.md) for details." >> release_notes.txt
@@ -83,20 +102,13 @@ jobs:
           cat release_notes.txt
           echo "--- End Release Notes ---"
           echo "File size: $(wc -c < release_notes.txt) bytes"
-          
-          # Store changelog content in output for use in release step
-          {
-            echo 'body<<EOF'
-            cat release_notes.txt
-            echo EOF
-          } >> $GITHUB_OUTPUT
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             ${{ env.archive_name }}
-          body: ${{ steps.changelog.outputs.body }}
+          body_path: release_notes.txt
           draft: false
           prerelease: false
         env:

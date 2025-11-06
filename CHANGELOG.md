@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-11-05
+
+### Added
+- Display reading time statistics in streak info popup
+- Today's reading time display (from daily progress tracking)
+- This week's reading time display (from statistics database or daily progress)
+- Time formatting function (seconds/minutes/hours) with proper pluralization
+- Weekly time calculation from statistics database when available
+
+### Changed
+- Enhanced streak info popup to show both daily and weekly reading time
+- Improved time tracking accuracy by using statistics database for weekly totals
+
 ## [1.1.2] - 2025-02-06
 
 ### Fixed

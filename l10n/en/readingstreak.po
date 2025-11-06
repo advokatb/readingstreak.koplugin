@@ -200,3 +200,18 @@ msgstr "Current Week Streak"
 msgid "Longest Week Streak"
 msgstr "Longest Week Streak"
 
+msgid "Today's Reading Time"
+msgstr "Today's Reading Time"
+
+msgid "This Week's Reading Time"
+msgstr "This Week's Reading Time"
+
+msgid "%1 seconds"
+msgstr "%1 seconds"
+
+msgid "%1 hours"
+msgstr "%1 hours"
+
+msgid "%1 hours %2 minutes"
+msgstr "%1 hours %2 minutes"
+

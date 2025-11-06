@@ -227,6 +227,97 @@ function ReadingStreak:getWeekNumber(date_str)
     return date.year .. "-W" .. string.format("%02d", week_num)
 end
 
+function ReadingStreak:formatTime(seconds)
+    seconds = tonumber(seconds) or 0
+    if seconds < 60 then
+        return T(_("%1 seconds"), seconds)
+    elseif seconds < 3600 then
+        local minutes = math.floor(seconds / 60)
+        return T(_("%1 minutes"), minutes)
+    else
+        local hours = math.floor(seconds / 3600)
+        local minutes = math.floor((seconds % 3600) / 60)
+        if minutes > 0 then
+            return T(_("%1 hours %2 minutes"), hours, minutes)
+        else
+            return T(_("%1 hours"), hours)
+        end
+    end
+end
+
+function ReadingStreak:getWeeklyReadingTime()
+    local today = self:getTodayString()
+    local week_start_date = self:getWeekStartDate(today)
+    local week_end_date = self:getWeekEndDate(today)
+    
+    local total_time = 0
+    
+    -- Try to get weekly time from statistics database if available (more accurate)
+    local db_location = DataStorage:getSettingsDir() .. "/statistics.sqlite3"
+    if lfs.attributes(db_location, "mode") == "file" then
+        local ok, result = pcall(function()
+            local conn = SQ3.open(db_location)
+            if not conn then
+                return nil
+            end
+            
+            local sql_stmt = string.format([[
+                SELECT SUM(duration) AS total_duration
+                FROM page_stat
+                WHERE strftime('%%Y-%%m-%%d', start_time, 'unixepoch', 'localtime') >= '%s'
+                  AND strftime('%%Y-%%m-%%d', start_time, 'unixepoch', 'localtime') <= '%s'
+            ]], week_start_date, week_end_date)
+            
+            local stmt = conn:prepare(sql_stmt)
+            local row = stmt:step()
+            local duration = 0
+            if row then
+                duration = tonumber(row[1]) or 0
+            end
+            stmt:close()
+            conn:close()
+            
+            return duration
+        end)
+        
+        if ok and result then
+            total_time = result
+        end
+    end
+    
+    -- If database not available, use daily_progress for today only
+    if total_time == 0 then
+        self:ensureDailyProgressState()
+        if self.settings.daily_progress and self.settings.daily_progress.date == today then
+            total_time = self.settings.daily_progress.duration or 0
+        end
+    end
+    
+    return total_time
+end
+
+function ReadingStreak:getWeekStartDate(date_str)
+    local y, m, d = date_str:match("(%d+)%-(%d+)%-(%d+)")
+    local t = os.time({year=y, month=m, day=d})
+    local date = os.date("*t", t)
+    local wday = date.wday == 1 and 7 or date.wday - 1
+    local days_to_subtract = wday - 1
+    local week_start = os.time({year=date.year, month=date.month, day=date.day}) - (days_to_subtract * 86400)
+    local week_start_date = os.date("*t", week_start)
+    return string.format("%04d-%02d-%02d", week_start_date.year, week_start_date.month, week_start_date.day)
+end
+
+function ReadingStreak:getWeekEndDate(date_str)
+    local y, m, d = date_str:match("(%d+)%-(%d+)%-(%d+)")
+    local t = os.time({year=y, month=m, day=d})
+    local date = os.date("*t", t)
+    local wday = date.wday == 1 and 7 or date.wday - 1
+    local days_to_add = 7 - wday
+    local week_end = os.time({year=date.year, month=date.month, day=date.day}) + (days_to_add * 86400)
+    local week_end_date = os.date("*t", week_end)
+    return string.format("%04d-%02d-%02d", week_end_date.year, week_end_date.month, week_end_date.day)
+end
+
 function ReadingStreak:hasActiveThresholds()
     local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
     local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
@@ -592,8 +683,19 @@ function ReadingStreak:showStreakInfo()
     local week_streak_text = week_streak == 1 and _("1 week") or T(_("%1 weeks"), week_streak)
     local longest_week_text = longest_week == 1 and _("1 week") or T(_("%1 weeks"), longest_week)
     
+    -- Get reading time
+    self:ensureDailyProgressState()
+    local today_time = 0
+    if self.settings.daily_progress and self.settings.daily_progress.date == self:getTodayString() then
+        today_time = self.settings.daily_progress.duration or 0
+    end
+    local today_time_text = self:formatTime(today_time)
+    
+    local weekly_time = self:getWeeklyReadingTime()
+    local weekly_time_text = self:formatTime(weekly_time)
+    
     local message = string.format(
-        "%s %s: %s\n\n%s (%s):\n%s\n\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n\n%s: %s\n%s: %s",
+        "%s %s: %s\n\n%s (%s):\n%s\n\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n\n%s: %s\n%s: %s\n\n%s: %s\n%s: %s",
         emoji,
         _("Current Streak"), day_text,
         _("Progress to goal"), goal_day_text, progress_bar,
@@ -602,7 +704,9 @@ function ReadingStreak:showStreakInfo()
         _("Longest Week Streak"), longest_week_text,
         _("Total Days Read"), total_day_text,
         _("First Read"), self.settings.first_read_date or _("Never"),
-        _("Last Read"), self.settings.last_read_date or _("Never")
+        _("Last Read"), self.settings.last_read_date or _("Never"),
+        _("Today's Reading Time"), today_time_text,
+        _("This Week's Reading Time"), weekly_time_text
     )
 
     UIManager:show(InfoMessage:new{

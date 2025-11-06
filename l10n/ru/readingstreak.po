@@ -200,3 +200,18 @@ msgstr "Текущая недельная серия"
 msgid "Longest Week Streak"
 msgstr "Самая длинная недельная серия"
 
+msgid "Today's Reading Time"
+msgstr "Время чтения сегодня"
+
+msgid "This Week's Reading Time"
+msgstr "Время чтения на этой неделе"
+
+msgid "%1 seconds"
+msgstr "%1 секунд"
+
+msgid "%1 hours"
+msgstr "%1 часов"
+
+msgid "%1 hours %2 minutes"
+msgstr "%1 часов %2 минут"
+

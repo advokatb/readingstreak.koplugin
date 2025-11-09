@@ -52,7 +52,7 @@ function CalendarDay:init()
     local bgcolor = self.is_read and Blitbuffer.COLOR_GRAY_4 or Blitbuffer.COLOR_WHITE
     
     self.daynum_w = TextWidget:new{
-        text = " " .. tostring(self.daynum),
+        text = " " .. tostring(self.daynum) .. ".",
         face = Font:getFace(self.font_face, self.font_size),
         fgcolor = fgcolor,
         padding = 0,

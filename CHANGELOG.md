@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-11-09
+
+### Changed
+- Refactored plugin code into logical modules for better maintainability
+  - `settings_manager.lua` - Settings persistence and serialization
+  - `daily_progress.lua` - Daily reading progress tracking
+  - `streak_calculator.lua` - Streak calculation logic
+  - `time_stats.lua` - Time statistics and formatting
+  - `statistics_importer.lua` - Database import functionality
+
+### Fixed
+- Calendar day numbers now display correctly when using [SeriousHornet's KOReader.patches](https://github.com/SeriousHornet/KOReader.patches) (specifically `2--disable-all-PT-widgets.lua`)
+
 ## [1.2.0] - 2025-11-05
 
 ### Added

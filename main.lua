@@ -12,10 +12,11 @@ local lfs = require("libs/libkoreader-lfs")
 local SQ3 = require("lua-ljsqlite3/init")
 local _ = require("readingstreak_gettext")
 local T = require("ffi/util").template
-
-local DEFAULT_DAILY_PAGE_THRESHOLD = 0
-local DEFAULT_DAILY_TIME_THRESHOLD = 0 -- seconds
-local MAX_TRACKED_INTERVAL = 45 * 60
+local SettingsManager = require("settings_manager")
+local DailyProgress = require("daily_progress")
+local StreakCalculator = require("streak_calculator")
+local TimeStats = require("time_stats")
+local StatisticsImporter = require("statistics_importer")
 
 -- Set to true to use inline menu for settings, false to use dialog window
 local USE_INLINE_SETTINGS = false
@@ -104,101 +105,15 @@ function ReadingStreak:onPageUpdate(pageno)
 end
 
 function ReadingStreak:loadSettings()
-    local ok, stored = pcall(dofile, self.settings_file)
-    if ok and stored then
-        self.settings = stored
-        local had_invalid = false
-        if self.settings.reading_history then
-            for _, date_str in ipairs(self.settings.reading_history) do
-                if date_str == "%Y-%m-%d" or (date_str and type(date_str) == "string" and not date_str:match("^%d%d%d%d%-%d%d%-%d%d$")) then
-                    had_invalid = true
-                    break
-                end
-            end
-        end
-        if self.settings.first_read_date == "%Y-%m-%d" or (self.settings.first_read_date and not self.settings.first_read_date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
-            had_invalid = true
-        end
-        local had_cleanup = self:cleanReadingHistory()
-        if not self.settings.reading_history then
-            self.settings.reading_history = {}
-        end
-        if (had_invalid or had_cleanup) and #self.settings.reading_history > 0 then
-            self:recalculateStreakFromHistory()
-            self:saveSettings()
-        elseif #self.settings.reading_history > 0 and not self.settings.current_streak then
-            self:recalculateStreakFromHistory()
-            self:saveSettings()
-        end
-        if not self.settings.streak_goal then
-            self.settings.streak_goal = 7
-        end
-        if not self.settings.show_notifications then
-            self.settings.show_notifications = true
-        end
-        if not self.settings.auto_track then
-            self.settings.auto_track = true
-        end
-        if not self.settings.calendar_streak_display then
-            self.settings.calendar_streak_display = "both"
-        end
-        if self.settings.daily_page_threshold == nil then
-            self.settings.daily_page_threshold = DEFAULT_DAILY_PAGE_THRESHOLD
-        end
-        if self.settings.daily_time_threshold == nil then
-            self.settings.daily_time_threshold = DEFAULT_DAILY_TIME_THRESHOLD
-        end
-        if not self.settings.daily_progress or type(self.settings.daily_progress) ~= "table" then
-            self.settings.daily_progress = {}
-        end
-    else
-        self.settings = {
-            current_streak = 0,
-            longest_streak = 0,
-            current_week_streak = 0,
-            longest_week_streak = 0,
-            last_read_date = nil,
-            first_read_date = nil,
-            total_days = 0,
-            streak_goal = 7,
-            reading_history = {},
-            show_notifications = true,
-            auto_track = true,
-            calendar_streak_display = "both",
-            daily_page_threshold = DEFAULT_DAILY_PAGE_THRESHOLD,
-            daily_time_threshold = DEFAULT_DAILY_TIME_THRESHOLD,
-            daily_progress = {},
-        }
-    end
+    SettingsManager.loadSettings(self)
 end
 
 function ReadingStreak:saveSettings()
-    local f = io.open(self.settings_file, "w")
-    if f then
-        local content = "return " .. self:serializeTable(self.settings)
-        f:write(content)
-        f:close()
-    else
-        logger.err("ReadingStreak: Failed to save settings", {file = self.settings_file})
-    end
+    SettingsManager.saveSettings(self)
 end
 
 function ReadingStreak:serializeTable(tbl)
-    local result = "{"
-    for k, v in pairs(tbl) do
-        local key = type(k) == "string" and string.format("%q", k) or tostring(k)
-        local value
-        if type(v) == "table" then
-            value = self:serializeTable(v)
-        elseif type(v) == "string" then
-            value = string.format("%q", v)
-        else
-            value = tostring(v)
-        end
-        result = result .. "[" .. key .. "]=" .. value .. ","
-    end
-    result = result .. "}"
-    return result
+    return SettingsManager.serializeTable(tbl)
 end
 
 function ReadingStreak:getTodayString()
@@ -228,427 +143,55 @@ function ReadingStreak:getWeekNumber(date_str)
 end
 
 function ReadingStreak:formatTime(seconds)
-    seconds = tonumber(seconds) or 0
-    if seconds < 60 then
-        return T(_("%1 seconds"), seconds)
-    elseif seconds < 3600 then
-        local minutes = math.floor(seconds / 60)
-        return T(_("%1 minutes"), minutes)
-    else
-        local hours = math.floor(seconds / 3600)
-        local minutes = math.floor((seconds % 3600) / 60)
-        if minutes > 0 then
-            return T(_("%1 hours %2 minutes"), hours, minutes)
-        else
-            return T(_("%1 hours"), hours)
-        end
-    end
+    return TimeStats.formatTime(seconds)
 end
 
 function ReadingStreak:getWeeklyReadingTime()
-    local today = self:getTodayString()
-    local week_start_date = self:getWeekStartDate(today)
-    local week_end_date = self:getWeekEndDate(today)
-    
-    local total_time = 0
-    
-    -- Try to get weekly time from statistics database if available (more accurate)
-    local db_location = DataStorage:getSettingsDir() .. "/statistics.sqlite3"
-    if lfs.attributes(db_location, "mode") == "file" then
-        local ok, result = pcall(function()
-            local conn = SQ3.open(db_location)
-            if not conn then
-                return nil
-            end
-            
-            local sql_stmt = string.format([[
-                SELECT SUM(duration) AS total_duration
-                FROM page_stat
-                WHERE strftime('%%Y-%%m-%%d', start_time, 'unixepoch', 'localtime') >= '%s'
-                  AND strftime('%%Y-%%m-%%d', start_time, 'unixepoch', 'localtime') <= '%s'
-            ]], week_start_date, week_end_date)
-            
-            local stmt = conn:prepare(sql_stmt)
-            local row = stmt:step()
-            local duration = 0
-            if row then
-                duration = tonumber(row[1]) or 0
-            end
-            stmt:close()
-            conn:close()
-            
-            return duration
-        end)
-        
-        if ok and result then
-            total_time = result
-        end
-    end
-    
-    -- If database not available, use daily_progress for today only
-    if total_time == 0 then
-        self:ensureDailyProgressState()
-        if self.settings.daily_progress and self.settings.daily_progress.date == today then
-            total_time = self.settings.daily_progress.duration or 0
-        end
-    end
-    
-    return total_time
+    return TimeStats.getWeeklyReadingTime(self)
 end
 
 function ReadingStreak:getWeekStartDate(date_str)
-    local y, m, d = date_str:match("(%d+)%-(%d+)%-(%d+)")
-    local t = os.time({year=y, month=m, day=d})
-    local date = os.date("*t", t)
-    local wday = date.wday == 1 and 7 or date.wday - 1
-    local days_to_subtract = wday - 1
-    local week_start = os.time({year=date.year, month=date.month, day=date.day}) - (days_to_subtract * 86400)
-    local week_start_date = os.date("*t", week_start)
-    return string.format("%04d-%02d-%02d", week_start_date.year, week_start_date.month, week_start_date.day)
+    return TimeStats.getWeekStartDate(self, date_str)
 end
 
 function ReadingStreak:getWeekEndDate(date_str)
-    local y, m, d = date_str:match("(%d+)%-(%d+)%-(%d+)")
-    local t = os.time({year=y, month=m, day=d})
-    local date = os.date("*t", t)
-    local wday = date.wday == 1 and 7 or date.wday - 1
-    local days_to_add = 7 - wday
-    local week_end = os.time({year=date.year, month=date.month, day=date.day}) + (days_to_add * 86400)
-    local week_end_date = os.date("*t", week_end)
-    return string.format("%04d-%02d-%02d", week_end_date.year, week_end_date.month, week_end_date.day)
+    return TimeStats.getWeekEndDate(self, date_str)
 end
 
 function ReadingStreak:hasActiveThresholds()
-    local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
-    local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
-    return page_threshold > 0 or time_threshold > 0
+    return DailyProgress.hasActiveThresholds(self)
 end
 
 function ReadingStreak:resetDailyProgress(today)
-    self.settings.daily_progress = {
-        date = today,
-        pages = 0,
-        duration = 0,
-        completed = false,
-        notified = false,
-        notified_date = nil,
-    }
-    self.last_page_update_time = os.time()
-    self.last_page_number = nil
-    self:saveSettings()
+    DailyProgress.resetDailyProgress(self, today)
 end
 
 function ReadingStreak:ensureDailyProgressState()
-    local today = self:getTodayString()
-    local progress = self.settings.daily_progress
-    if type(progress) ~= "table" or progress.date ~= today then
-        self:resetDailyProgress(today)
-        return
-    end
-    if progress.pages == nil then
-        progress.pages = 0
-    end
-    if progress.duration == nil then
-        progress.duration = 0
-    end
-    if progress.completed == nil then
-        progress.completed = false
-    end
-    if progress.notified == nil then
-        progress.notified = false
-    end
-    if progress.notified_date ~= today then
-        progress.notified = false
-        progress.notified_date = today
-    end
+    DailyProgress.ensureDailyProgressState(self)
 end
 
 function ReadingStreak:updateDailyProgress(pageno)
-    self:ensureDailyProgressState()
-    local progress = self.settings.daily_progress
-    local now = os.time()
-    local progress_changed = false
-
-    if self.last_page_number and pageno and pageno ~= self.last_page_number then
-        if self.last_page_update_time then
-            local diff = now - self.last_page_update_time
-            if diff > 0 then
-                diff = math.min(diff, MAX_TRACKED_INTERVAL)
-                progress.duration = (progress.duration or 0) + diff
-                progress_changed = true
-            end
-        end
-        progress.pages = (progress.pages or 0) + 1
-        progress_changed = true
-    end
-
-    if pageno then
-        self.last_page_number = pageno
-    end
-    self.last_page_update_time = now
-
-    if progress_changed and not progress.completed then
-        self:saveSettings()
-    end
+    DailyProgress.updateDailyProgress(self, pageno)
 end
 
 function ReadingStreak:hasMetDailyGoal()
-    local progress = self.settings.daily_progress or {}
-    local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
-    local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
-
-    if page_threshold > 0 then
-        if (progress.pages or 0) < page_threshold then
-            return false
-        end
-    end
-
-    if time_threshold > 0 then
-        if (progress.duration or 0) < time_threshold then
-            return false
-        end
-    end
-
-    return true
+    return DailyProgress.hasMetDailyGoal(self)
 end
 
 function ReadingStreak:showDailyGoalAchievementMessage()
-    if not self:hasActiveThresholds() then
-        return
-    end
-    if self.settings.show_notifications and not (self.settings.daily_progress and self.settings.daily_progress.notified) then
-        UIManager:show(InfoMessage:new{
-            text = _("Congratulations! You've met today's streak target!"),
-            timeout = nil,
-        })
-        if self.settings.daily_progress then
-            self.settings.daily_progress.notified = true
-            self.settings.daily_progress.notified_date = self:getTodayString()
-            self:saveSettings()
-        end
-    end
+    DailyProgress.showDailyGoalAchievementMessage(self)
 end
 
 function ReadingStreak:cleanReadingHistory()
-    if not self.settings.reading_history then
-        return false
-    end
-    
-    local original_count = #self.settings.reading_history
-    local cleaned = {}
-    for _, date_str in ipairs(self.settings.reading_history) do
-        if date_str and type(date_str) == "string" and date_str:match("^%d%d%d%d%-%d%d%-%d%d$") then
-            table.insert(cleaned, date_str)
-        end
-    end
-    
-    local had_changes = false
-    if #cleaned ~= original_count then
-        had_changes = true
-    end
-    
-    self.settings.reading_history = cleaned
-    table.sort(self.settings.reading_history)
-    
-    if self.settings.first_read_date == "%Y-%m-%d" or (self.settings.first_read_date and not self.settings.first_read_date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
-        had_changes = true
-        if #self.settings.reading_history > 0 then
-            self.settings.first_read_date = self.settings.reading_history[1]
-        else
-            self.settings.first_read_date = nil
-        end
-    end
-    
-    return had_changes
+    return StreakCalculator.cleanReadingHistory(self)
 end
 
 function ReadingStreak:recalculateStreakFromHistory()
-    if not self.settings.reading_history or #self.settings.reading_history == 0 then
-        self.settings.current_streak = 0
-        self.settings.longest_streak = 0
-        self.settings.current_week_streak = 0
-        self.settings.longest_week_streak = 0
-        self.settings.first_read_date = nil
-        self.settings.last_read_date = nil
-        self.settings.total_days = 0
-        return
-    end
-    
-    local history = self.settings.reading_history
-    table.sort(history)
-    
-    self.settings.first_read_date = history[1]
-    self.settings.last_read_date = history[#history]
-    self.settings.total_days = #history
-    
-    local longest_streak = 1
-    local temp_streak = 1
-    
-    for i = 2, #history do
-        local days_diff = self:dateDiffDays(history[i-1], history[i])
-        if days_diff == 1 then
-            temp_streak = temp_streak + 1
-            longest_streak = math.max(longest_streak, temp_streak)
-        else
-            temp_streak = 1
-        end
-    end
-    
-    local current_streak = 1
-    local last_date = history[#history]
-    local today = self:getTodayString()
-    local days_since_last = self:dateDiffDays(last_date, today)
-    
-    if days_since_last == 0 then
-        temp_streak = 1
-        for i = #history, 2, -1 do
-            local days_diff = self:dateDiffDays(history[i-1], history[i])
-            if days_diff == 1 then
-                temp_streak = temp_streak + 1
-            else
-                break
-            end
-        end
-        current_streak = temp_streak
-    elseif days_since_last == 1 then
-        temp_streak = 1
-        for i = #history, 2, -1 do
-            local days_diff = self:dateDiffDays(history[i-1], history[i])
-            if days_diff == 1 then
-                temp_streak = temp_streak + 1
-            else
-                break
-            end
-        end
-        current_streak = temp_streak
-    else
-        current_streak = 0
-    end
-    
-    self.settings.current_streak = current_streak
-    self.settings.longest_streak = longest_streak
-    
-    local week_streaks = {}
-    for i = 1, #history do
-        local week = self:getWeekNumber(history[i])
-        week_streaks[week] = (week_streaks[week] or 0) + 1
-    end
-    
-    local sorted_weeks = {}
-    for week, _ in pairs(week_streaks) do
-        table.insert(sorted_weeks, week)
-    end
-    table.sort(sorted_weeks)
-    
-    if #sorted_weeks > 0 then
-        local longest_week_streak = 1
-        local temp_week_streak = 1
-        
-        for i = 2, #sorted_weeks do
-            local last_year, last_num = sorted_weeks[i-1]:match("(%d+)-W(%d+)")
-            local this_year, this_num = sorted_weeks[i]:match("(%d+)-W(%d+)")
-            
-            last_year = tonumber(last_year)
-            last_num = tonumber(last_num)
-            this_year = tonumber(this_year)
-            this_num = tonumber(this_num)
-            
-            if (this_year == last_year and this_num == last_num + 1) or
-               (this_year == last_year + 1 and this_num == 1 and last_num >= 52) then
-                temp_week_streak = temp_week_streak + 1
-                longest_week_streak = math.max(longest_week_streak, temp_week_streak)
-            else
-                temp_week_streak = 1
-            end
-        end
-        
-        local last_week = sorted_weeks[#sorted_weeks]
-        local last_week_year, last_week_num = last_week:match("(%d+)-W(%d+)")
-        local today_week = self:getWeekNumber(today)
-        local today_week_year, today_week_num = today_week:match("(%d+)-W(%d+)")
-        
-        last_week_year = tonumber(last_week_year)
-        last_week_num = tonumber(last_week_num)
-        today_week_year = tonumber(today_week_year)
-        today_week_num = tonumber(today_week_num)
-        
-        local days_since_last = self:dateDiffDays(history[#history], today)
-        
-        if days_since_last == 0 or days_since_last == 1 then
-            local current_week_streak = temp_week_streak
-            if (today_week_year == last_week_year and today_week_num == last_week_num + 1) or
-               (today_week_year == last_week_year + 1 and today_week_num == 1 and last_week_num >= 52) then
-                current_week_streak = current_week_streak + 1
-            end
-            self.settings.current_week_streak = math.max(1, current_week_streak)
-        else
-            self.settings.current_week_streak = 0
-        end
-        
-        self.settings.longest_week_streak = longest_week_streak
-    else
-        self.settings.current_week_streak = 0
-        self.settings.longest_week_streak = 0
-    end
+    StreakCalculator.recalculateStreakFromHistory(self)
 end
 
 function ReadingStreak:checkStreak()
-    local today = self:getTodayString()
-
-    self:ensureDailyProgressState()
-    if self.settings.daily_progress and self.settings.daily_progress.completed then
-        return
-    end
-
-    if self.settings.last_read_date == today then
-        if self.settings.daily_progress then
-            self.settings.daily_progress.completed = true
-        end
-        return
-    end
-
-    local found_today = false
-    for _, date_str in ipairs(self.settings.reading_history) do
-        if date_str == today then
-            found_today = true
-            break
-        end
-    end
-
-    if not found_today then
-        if not self:hasMetDailyGoal() then
-            return
-        end
-        table.insert(self.settings.reading_history, today)
-        table.sort(self.settings.reading_history)
-        self:recalculateStreakFromHistory()
-        self.settings.last_read_date = today
-        if self.settings.daily_progress then
-            self.settings.daily_progress.completed = true
-            if self.settings.show_notifications ~= false and not self.settings.daily_progress.notified then
-                self:showDailyGoalAchievementMessage()
-            end
-        else
-            if self.settings.show_notifications ~= false then
-                self:showDailyGoalAchievementMessage()
-            end
-        end
-        self:saveSettings()
-
-        if self.settings.show_notifications and self.settings.current_streak == self.settings.streak_goal then
-            UIManager:show(InfoMessage:new{
-                text = T(_("Congratulations! You've reached your streak goal of %1 days!"), self.settings.streak_goal),
-                timeout = 5,
-            })
-        end
-    else
-        if self.settings.daily_progress then
-            self.settings.daily_progress.completed = true
-            if self.settings.show_notifications ~= false and not self.settings.daily_progress.notified then
-                self.settings.daily_progress.notified = true
-            end
-        end
-    end
+    StreakCalculator.checkStreak(self)
 end
 
 function ReadingStreak:getStreakEmoji()
@@ -782,154 +325,7 @@ function ReadingStreak:resetStreak()
 end
 
 function ReadingStreak:importFromStatistics()
-    local db_location = DataStorage:getSettingsDir() .. "/statistics.sqlite3"
-    
-    if lfs.attributes(db_location, "mode") ~= "file" then
-        UIManager:show(InfoMessage:new{
-            text = _("Statistics database not found."),
-            timeout = 3,
-        })
-        return
-    end
-    
-    local ok, err = pcall(function()
-        local conn = SQ3.open(db_location)
-        if not conn then
-            error("Failed to open statistics database")
-        end
-        
-        local sql_stmt = [[
-            SELECT date,
-                   COUNT(*) AS page_count,
-                   SUM(duration) AS total_duration
-            FROM (
-                SELECT strftime('%Y-%m-%d', start_time, 'unixepoch', 'localtime') AS date,
-                       id_book,
-                       page,
-                       SUM(duration) AS duration
-                FROM page_stat
-                GROUP BY date, id_book, page
-            )
-            GROUP BY date
-            ORDER BY date ASC
-        ]]
-
-        local stmt = conn:prepare(sql_stmt)
-        local stats_rows = {}
-        while true do
-            local row = stmt:step()
-            if not row then
-                break
-            end
-            local date_str = row[1]
-            if date_str then
-                local pages = tonumber(row[2]) or 0
-                local duration = tonumber(row[3]) or 0
-                table.insert(stats_rows, {
-                    date = date_str,
-                    pages = pages,
-                    duration = duration,
-                })
-            end
-        end
-        stmt:close()
-
-        local imported_dates = {}
-        local existing_dates = {}
-        
-        for _, date_str in ipairs(self.settings.reading_history) do
-            if date_str and type(date_str) == "string" and date_str:match("^%d%d%d%d%-%d%d%-%d%d$") then
-                existing_dates[date_str] = true
-            end
-        end
-        
-        if #stats_rows == 0 then
-            conn:close()
-            UIManager:show(InfoMessage:new{
-                text = _("No reading statistics found in database."),
-                timeout = 3,
-            })
-            return
-        end
-        
-        local new_dates_count = 0
-        local skipped_threshold_count = 0
-        local thresholds_active = self:hasActiveThresholds()
-        local page_threshold = tonumber(self.settings.daily_page_threshold) or 0
-        local time_threshold = tonumber(self.settings.daily_time_threshold) or 0
-        
-        for i = 1, #stats_rows do
-            local date_entry = stats_rows[i]
-            local date_str = date_entry.date
-            local matches = date_str and type(date_str) == "string" and date_str:match("^%d%d%d%d%-%d%d%-%d%d$") ~= nil
-            
-            if date_str and type(date_str) == "string" and matches and not existing_dates[date_str] then
-                local meets_threshold = true
-                if thresholds_active then
-                    if page_threshold > 0 and (date_entry.pages or 0) < page_threshold then
-                        meets_threshold = false
-                    end
-                    if time_threshold > 0 and (date_entry.duration or 0) < time_threshold then
-                        meets_threshold = false
-                    end
-                end
-
-                if meets_threshold then
-                    table.insert(imported_dates, date_str)
-                    existing_dates[date_str] = true
-                    new_dates_count = new_dates_count + 1
-                elseif thresholds_active then
-                    skipped_threshold_count = skipped_threshold_count + 1
-                end
-            end
-        end
-        
-        conn:close()
-        
-        if new_dates_count == 0 then
-            local message
-            if thresholds_active and skipped_threshold_count > 0 then
-                message = _("No days met the configured daily targets.")
-            else
-                message = _("No new reading statistics found in database.")
-            end
-            UIManager:show(InfoMessage:new{
-                text = message,
-                timeout = 3,
-            })
-            return
-        end
-        
-        for _, date_str in ipairs(imported_dates) do
-            table.insert(self.settings.reading_history, date_str)
-        end
-        
-        table.sort(self.settings.reading_history)
-        
-        self:cleanReadingHistory()
-        self:recalculateStreakFromHistory()
-        
-        self:saveSettings()
-        
-        local info_text
-        if thresholds_active and skipped_threshold_count > 0 then
-            info_text = T(_("Imported %1 reading days; skipped %2 days below daily targets."), new_dates_count, skipped_threshold_count)
-        else
-            info_text = T(_("Imported %1 reading days from statistics database."), new_dates_count)
-        end
-        UIManager:show(InfoMessage:new{
-            text = info_text,
-            timeout = 5,
-        })
-    end)
-    
-    if not ok then
-        logger.err("ReadingStreak: Error importing statistics", {error = tostring(err)})
-        UIManager:show(InfoMessage:new{
-            text = T(_("Error importing statistics: %1"), tostring(err)),
-            timeout = 5,
-        })
-    end
+    StatisticsImporter.importFromStatistics(self)
 end
 
 function ReadingStreak:addToMainMenu(menu_items)

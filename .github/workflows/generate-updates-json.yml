@@ -1,0 +1,105 @@
+name: Generate Plugin Updates JSON
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - '_meta.lua'
+      - '*.lua'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+      
+      - name: Generate updates.json for plugin
+        run: |
+          # Extract plugin metadata from _meta.lua using grep and sed
+          plugin_name=""
+          plugin_version=""
+          plugin_description=""
+          
+          if [ -f "_meta.lua" ]; then
+            # Extract name (e.g., name = "myplugin")
+            name_line=$(grep -E '^\s*name\s*=' "_meta.lua" | head -1)
+            if [ -n "$name_line" ]; then
+              plugin_name=$(echo "$name_line" | sed -n 's/.*name\s*=\s*["'\'']\([^"'\'']*\)["'\''].*/\1/p')
+            fi
+            
+            # Extract version (e.g., version = "1.0.0")
+            version_line=$(grep -E '^\s*version\s*=' "_meta.lua" | head -1)
+            if [ -n "$version_line" ]; then
+              plugin_version=$(echo "$version_line" | sed -n 's/.*version\s*=\s*["'\'']\([^"'\'']*\)["'\''].*/\1/p')
+            fi
+            
+            # Extract description (handle both simple strings and _([[...]]) format)
+            description_line=$(grep -E '^\s*description\s*=' "_meta.lua" | head -1)
+            if [ -n "$description_line" ]; then
+              # Try to extract from _([[...]]) format first
+              plugin_description=$(echo "$description_line" | sed -n 's/.*_(\[\[\(.*\)\]\]).*/\1/p')
+              # If that didn't work, try simple quoted string
+              if [ -z "$plugin_description" ]; then
+                plugin_description=$(echo "$description_line" | sed -n 's/.*description\s*=\s*["'\'']\([^"'\'']*\)["'\''].*/\1/p')
+              fi
+            fi
+          fi
+          
+          # If name not found, try to get from directory name
+          if [ -z "$plugin_name" ]; then
+            plugin_name=$(basename "$PWD" | sed 's/\.koplugin$//')
+          fi
+          
+          # Get latest release info from GitHub API
+          repo_full_name="${{ github.repository }}"
+          latest_release=$(curl -s "https://api.github.com/repos/${repo_full_name}/releases/latest" || echo "")
+          
+          latest_version=""
+          release_url=""
+          if [ -n "$latest_release" ] && [ "$latest_release" != "null" ]; then
+            latest_version=$(echo "$latest_release" | grep -o '"tag_name": "[^"]*' | cut -d'"' -f4 | sed 's/^v//')
+            release_url=$(echo "$latest_release" | grep -o '"html_url": "[^"]*' | cut -d'"' -f4)
+          fi
+          
+          # Generate updates.json
+          echo '{' > updates.json
+          echo '  "plugin": {' >> updates.json
+          echo "    \"name\": \"$plugin_name\"," >> updates.json
+          if [ -n "$plugin_version" ]; then
+            echo "    \"version\": \"$plugin_version\"," >> updates.json
+          fi
+          if [ -n "$latest_version" ]; then
+            echo "    \"latest_version\": \"$latest_version\"," >> updates.json
+          fi
+          if [ -n "$plugin_description" ]; then
+            # Escape description for JSON
+            plugin_description=$(echo "$plugin_description" | sed 's/"/\\"/g')
+            echo "    \"description\": \"$plugin_description\"," >> updates.json
+          fi
+          if [ -n "$release_url" ]; then
+            echo "    \"release_url\": \"$release_url\"" >> updates.json
+          else
+            # Remove trailing comma if no release_url
+            sed -i 's/,$//' updates.json
+          fi
+          echo '  }' >> updates.json
+          echo '}' >> updates.json
+          cat updates.json
+      
+      - name: Commit and push
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add updates.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Update updates.json with plugin metadata"
+            git push
+          fi
+

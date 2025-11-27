@@ -1,7 +1,7 @@
 {
   "plugin": {
     "name": "readingstreak",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "latest_version": "1.2.2",
     "description": "Track your daily and weekly reading streaks similar to Kindle Streak. View calendar, set goals, and celebrate milestones.",
     "release_url": "https://github.com/advokatb/readingstreak.koplugin/releases/tag/v1.2.2

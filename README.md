@@ -6,7 +6,7 @@ A plugin for tracking daily and weekly reading streaks, similar to Kindle Streak
 
 ## Features
 
-1. **Localization** - Multi-language support (English, Russian, Ukrainian, Turkish)
+1. **Localization** - Multi-language support (English, Russian, Ukrainian, Turkish, Hungarian)
 2. **Daily Streaks** - Track consecutive days of reading
 3. **Weekly Streaks** - Track consecutive weeks of reading
 4. **Calendar View** - Visualize reading progress with monthly calendar navigation
@@ -124,6 +124,7 @@ To add new translations, create `.po` files in the `l10n/[language]/koreader.po`
 - Russian (ru)
 - Ukrainian (ua)
 - Turkish (tr)
+- Hungarian (hu)
 
 ## Technical Details
 

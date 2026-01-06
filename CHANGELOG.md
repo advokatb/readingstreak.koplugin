@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.2] - 2026-01-06
+
+### Added
+- Lightning bolt icon (⚡) to the Reading Streak main menu entry for better visual distinction among tools.
+
+### Changed
+- Version log message format unified to `ReadingStreak plugin vX.Y.Z loaded` for easier debugging.
+
 ## [1.3.1] - 2025-12-17
 
 ### Changed

@@ -30,7 +30,7 @@ local ReadingStreak = WidgetContainer:extend{
 function ReadingStreak:init()
     -- Log plugin version on load
     local version = self.version or "unknown"
-    logger.info("ReadingStreak plugin loaded", {version = version})
+    logger.info("ReadingStreak plugin v" .. version .. " loaded")
     
     self.settings_file = DataStorage:getSettingsDir() .. "/reading_streak.lua"
     self:loadSettings()
@@ -332,7 +332,7 @@ end
 
 function ReadingStreak:addToMainMenu(menu_items)
     menu_items.reading_streak = {
-        text = _("Reading Streak"),
+        text = "⚡ " .. _("Reading Streak"),
         sorting_hint = "tools",
         sub_item_table = {
             {

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.3] - 2026-03-18
+
+### Added
+- Polish translation (thanks to @karlbuldak, PR #10).
+
+### Fixed
+- Ignore picture documents when calculating streaks (PR #11).
+
 ## [1.3.2] - 2026-01-06
 
 ### Added

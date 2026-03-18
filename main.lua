@@ -114,6 +114,7 @@ function ReadingStreak:onReaderReady()
 end
 
 function ReadingStreak:onPageUpdate(pageno)
+    if self.document and self.document.is_pic then return end
     if self.settings.auto_track ~= false then
         self:updateDailyProgress(pageno)
         self:checkStreak()

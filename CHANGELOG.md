@@ -1,6 +1,9 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## [1.3.4] - 2026-04-06
+
+### Fixed
+- Fixed day-to-day streak calculation around daylight saving time transitions by using a DST-safe day difference method.
 
 ## [1.3.3] - 2026-03-18
 

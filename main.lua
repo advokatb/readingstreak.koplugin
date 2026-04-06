@@ -140,8 +140,9 @@ end
 function ReadingStreak:dateDiffDays(date1, date2)
     local y1, m1, d1 = date1:match("(%d+)-(%d+)-(%d+)")
     local y2, m2, d2 = date2:match("(%d+)-(%d+)-(%d+)")
-    local time1 = os.time({year=y1, month=m1, day=d1})
-    local time2 = os.time({year=y2, month=m2, day=d2})
+    -- Use local noon to avoid DST edge cases around midnight (23/25 hour days).
+    local time1 = os.time({year=tonumber(y1), month=tonumber(m1), day=tonumber(d1), hour=12})
+    local time2 = os.time({year=tonumber(y2), month=tonumber(m2), day=tonumber(d2), hour=12})
     return math.floor((time2 - time1) / 86400)
 end
 

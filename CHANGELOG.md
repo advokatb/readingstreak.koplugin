@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.5] - 2026-04-06
+
+### Fixed
+- Improve dateDiffDays function to use Julian day calculation
+
 ## [1.3.4] - 2026-04-06
 
 ### Fixed

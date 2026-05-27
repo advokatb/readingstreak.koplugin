@@ -113,6 +113,17 @@ function ReadingStreak:onReaderReady()
     end
 end
 
+-- KOReader's PluginLoader calls this when the user enables
+-- "Also delete plugin settings" while uninstalling this plugin.
+function ReadingStreak:deletePluginSettings()
+    local settings_dir = DataStorage:getSettingsDir()
+    local ffiUtil = require("ffi/util")
+
+    -- Persisted plugin state in settings directory.
+    pcall(os.remove, settings_dir .. "/reading_streak.lua")
+    pcall(os.remove, settings_dir .. "/reading_streak.lua.old")
+    pcall(ffiUtil.purgeDir, settings_dir .. "/readingstreak_cache")
+end
 function ReadingStreak:onPageUpdate(pageno)
     if self.document and self.document.is_pic then return end
     if self.settings.auto_track ~= false then

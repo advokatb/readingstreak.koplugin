@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.6] - 2026-05-27
+
+### Added
+- Added KOReader uninstall hook `deletePluginSettings()` to remove plugin settings when users check **"Also delete plugin settings"** in plugin management ([#15](https://github.com/advokatb/readingstreak.koplugin/issues/15)).
+
 ## [1.3.5] - 2026-04-06
 
 ### Fixed

@@ -132,6 +132,19 @@ function ReadingStreak:onPageUpdate(pageno)
     end
 end
 
+function ReadingStreak:onSuspend()
+    local pageno = self.last_page_number
+    self.last_page_number = true
+    self:onPageUpdate(pageno)
+    self.last_page_number = nil
+    self.last_page_number_on_suspend = pageno
+end
+
+function ReadingStreak:onResume()
+    self:onPageUpdate(self.last_page_number_on_suspend)
+    self.last_page_number_on_suspend  = nil
+end
+
 function ReadingStreak:loadSettings()
     SettingsManager.loadSettings(self)
 end

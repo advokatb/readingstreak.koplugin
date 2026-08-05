@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.7] - 2026-08-05
+
+### Fixed
+- Fixed reading time continuing to run when the device was suspended (thanks to @jandamm, #17).
+
 ## [1.3.6] - 2026-05-27
 
 ### Added

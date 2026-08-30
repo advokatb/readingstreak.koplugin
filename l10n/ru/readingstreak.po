@@ -14,23 +14,11 @@ msgstr "Отслеживайте ежедневные и еженедельны�
 msgid "Congratulations! You've reached your streak goal of %1 days!"
 msgstr "Поздравляем! Вы достигли цели в %1 дней подряд!"
 
-msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
-msgstr "%1 Текущая серия: %2\n\nПрогресс к цели (%3):\n%4\n\nСамая длинная серия: %5\nТекущая недельная серия: %6\nСамая длинная недельная серия: %7\nВсего дней чтения: %8\n\nПервое чтение: %9\nПоследнее чтение: %10"
+msgid "Congratulations! You've met today's streak target!"
+msgstr "Поздравляем! Вы выполнили сегодняшнюю цель серии!"
 
 msgid "Never"
 msgstr "Никогда"
-
-msgid "Set Streak Goal"
-msgstr "Установить цель"
-
-msgid "Cancel"
-msgstr "Отмена"
-
-msgid "Set Goal"
-msgstr "Установить"
-
-msgid "Streak goal set to %1 days!"
-msgstr "Цель установлена на %1 дней!"
 
 msgid "Reading streak has been reset!"
 msgstr "Серия чтения сброшена!"
@@ -44,14 +32,8 @@ msgstr "Календарный вид"
 msgid "Settings"
 msgstr "Настройки"
 
-msgid "Reset Streak"
-msgstr "Сбросить серию"
-
-msgid "Reading Streak Settings"
-msgstr "Настройки серии чтения"
-
-msgid "Streak Goal (days)"
-msgstr "Цель серии (дни)"
+msgid "Goals"
+msgstr "Цели"
 
 msgid "Streak Goal"
 msgstr "Цель серии"
@@ -59,8 +41,14 @@ msgstr "Цель серии"
 msgid "Show streak notifications"
 msgstr "Показывать уведомления о серии"
 
+msgid "Use toast notifications"
+msgstr "Toast-уведомления (без тапа)"
+
 msgid "Automatically track reading"
 msgstr "Автоматически отслеживать чтение"
+
+msgid "Tracking"
+msgstr "Отслеживание"
 
 msgid "Reset All Data"
 msgstr "Сбросить все данные"
@@ -92,11 +80,8 @@ msgstr "%1 недель"
 msgid "%1 days read out of %2"
 msgstr "%1 дней прочитано из %2"
 
-msgid "Goals and Tracking"
-msgstr "Цели и отслеживание"
-
-msgid "Daily Targets"
-msgstr "Ежедневные цели"
+msgid "Data Management"
+msgstr "Управление данными"
 
 msgid "Daily page target: %1"
 msgstr "Ежедневная цель по страницам: %1"
@@ -112,18 +97,6 @@ msgstr "Ежедневная цель по времени (минуты)"
 
 msgid "Off"
 msgstr "Выкл"
-
-msgid "Notifications"
-msgstr "Уведомления"
-
-msgid "Data Management"
-msgstr "Управление данными"
-
-msgid "Test Notification"
-msgstr "Тестовое уведомление"
-
-msgid "All reading streak data has been reset."
-msgstr "Все данные о серии чтения сброшены."
 
 msgid "Import from Statistics"
 msgstr "Импортировать из статистики"
@@ -152,14 +125,14 @@ msgstr "Ошибка при импорте статистики: %1"
 msgid "Error showing calendar: %1"
 msgstr "Ошибка при отображении календаря: %1"
 
-msgid "Error showing settings: %1"
-msgstr "Ошибка при отображении настроек: %1"
-
 msgid "Streak Goal: %1 days"
 msgstr "Цель серии: %1 дней"
 
 msgid "Calendar streak display: %1"
 msgstr "Отображение серии в календаре: %1"
+
+msgid "Display"
+msgstr "Отображение"
 
 msgid "Days"
 msgstr "Дни"
@@ -212,24 +185,11 @@ msgstr "Время чтения на этой неделе"
 msgid "%1 seconds"
 msgstr "%1 секунд"
 
-msgid "%1 hours"
-msgstr "%1 часов"
-
-msgid "%1 hours %2 minutes"
-msgstr "%1 часов %2 минут"
-
-msgid "Show Menu"
-msgstr "Показать меню"
-
 msgid "UI Integration"
 msgstr "Интеграция с интерфейсом"
 
 msgid "Export to Project Title"
 msgstr "Экспорт в Project Title"
 
-msgid "Export to CoverBrowser"
-msgstr "Экспорт в CoverBrowser"
-
 msgid "No streak"
 msgstr "Нет серии"
-

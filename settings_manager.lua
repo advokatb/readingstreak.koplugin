@@ -77,6 +77,7 @@ function SettingsManager.loadSettings(reading_streak)
             streak_goal = 7,
             reading_history = {},
             show_notifications = true,
+            toast_notifications = false,
             auto_track = true,
             calendar_streak_display = "both",
             daily_page_threshold = DEFAULT_DAILY_PAGE_THRESHOLD,

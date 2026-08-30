@@ -1,15 +1,11 @@
 -- Reading Streak plugin for KOReader
 
 local DataStorage = require("datastorage")
-local Event = require("ui/event")
 local InfoMessage = require("ui/widget/infomessage")
-local InputDialog = require("ui/widget/inputdialog")
 local UIManager = require("ui/uimanager")
 local WidgetContainer = require("ui/widget/container/widgetcontainer")
 local Screen = require("device").screen
 local logger = require("logger")
-local lfs = require("libs/libkoreader-lfs")
-local SQ3 = require("lua-ljsqlite3/init")
 local _ = require("readingstreak_gettext")
 local T = require("ffi/util").template
 local SettingsManager = require("settings_manager")
@@ -18,7 +14,6 @@ local StreakCalculator = require("streak_calculator")
 local TimeStats = require("time_stats")
 local StatisticsImporter = require("statistics_importer")
 local Dispatcher = require("dispatcher")
-local Menu = require("ui/widget/menu")
 local PluginShare = require("pluginshare")
 
 

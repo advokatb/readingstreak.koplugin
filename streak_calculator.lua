@@ -1,7 +1,6 @@
 -- Streak Calculator for Reading Streak plugin
 
-local UIManager = require("ui/uimanager")
-local InfoMessage = require("ui/widget/infomessage")
+local StreakNotifications = require("streak_notifications")
 local _ = require("readingstreak_gettext")
 local T = require("ffi/util").template
 
@@ -214,10 +213,11 @@ function StreakCalculator.checkStreak(reading_streak)
         reading_streak:saveSettings()
 
         if reading_streak.settings.show_notifications and reading_streak.settings.current_streak == reading_streak.settings.streak_goal then
-            UIManager:show(InfoMessage:new{
-                text = T(_("Congratulations! You've reached your streak goal of %1 days!"), reading_streak.settings.streak_goal),
-                timeout = 5,
-            })
+            StreakNotifications.show(
+                T(_("Congratulations! You've reached your streak goal of %1 days!"), reading_streak.settings.streak_goal),
+                reading_streak.settings,
+                5
+            )
         end
     else
         if reading_streak.settings.daily_progress then

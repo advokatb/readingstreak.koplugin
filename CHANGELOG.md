@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0] - 2026-08-30
+
+### Added
+- Optional toast notifications for streak achievements (Settings → Tracking → **Use toast notifications**). When enabled, notifications appear at the top of the screen and dismiss automatically instead of requiring a tap ([#9](https://github.com/advokatb/readingstreak.koplugin/issues/9)).
+
+### Changed
+- Removed dead code and unused translations left over from the old modal settings dialog.
+
 ## [1.3.7] - 2026-08-05
 
 ### Fixed
@@ -54,7 +62,7 @@
 ### Changed
 - Settings menu completely reorganized into logical submenus:
   - **Goals**: Streak Goal, Daily Page Target, Daily Time Target
-  - **Tracking**: Automatically track reading, Show streak notifications
+  - **Tracking**: Automatically track reading, Show streak notifications, Use toast notifications
   - **Display**: Calendar streak display
   - **UI Integration**: Export to Project Title
   - **Data Management**: Import from Statistics, Reset All Data

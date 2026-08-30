@@ -16,23 +16,8 @@ msgstr "Tebrikler! %1 günlük seri hedefinize ulaştınız!"
 msgid "Congratulations! You've met today's streak target!"
 msgstr "Tebrikler! Bugünkü seri hedefinizi tamamladınız!"
 
-msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
-msgstr "%1 Güncel Seri: %2\n\nHedefe ilerleme (%3):\n%4\n\nEn Uzun Seri: %5\nGeçerli Hafta Serisi: %6\nEn Uzun Hafta Serisi: %7\nToplam Okunan Gün: %8\n\nİlk Okuma: %9\nSon Okuma: %10"
-
 msgid "Never"
 msgstr "Asla"
-
-msgid "Set Streak Goal"
-msgstr "Seri Hedefini Ayarla"
-
-msgid "Cancel"
-msgstr "İptal"
-
-msgid "Set Goal"
-msgstr "Hedefi Ayarla"
-
-msgid "Streak goal set to %1 days!"
-msgstr "Seri hedefi %1 gün olarak ayarlandı!"
 
 msgid "Reading streak has been reset!"
 msgstr "Okuma serisi sıfırlandı!"
@@ -46,14 +31,8 @@ msgstr "Takvim Görünümü"
 msgid "Settings"
 msgstr "Ayarlar"
 
-msgid "Reset Streak"
-msgstr "Seriyi Sıfırla"
-
-msgid "Reading Streak Settings"
-msgstr "Okuma Serisi Ayarları"
-
-msgid "Streak Goal (days)"
-msgstr "Seri Hedefi (gün)"
+msgid "Goals"
+msgstr "Hedefler"
 
 msgid "Streak Goal"
 msgstr "Seri Hedefi"
@@ -61,8 +40,14 @@ msgstr "Seri Hedefi"
 msgid "Show streak notifications"
 msgstr "Seri bildirimlerini göster"
 
+msgid "Use toast notifications"
+msgstr "Toast bildirimleri kullan"
+
 msgid "Automatically track reading"
 msgstr "Okumayı otomatik takip et"
+
+msgid "Tracking"
+msgstr "Takip"
 
 msgid "Reset All Data"
 msgstr "Tüm Verileri Sıfırla"
@@ -94,17 +79,8 @@ msgstr "%1 dakika"
 msgid "%1 days read out of %2"
 msgstr "%2 günden %1 gün okundu"
 
-msgid "Goals and Tracking"
-msgstr "Hedefler ve Takip"
-
-msgid "Notifications"
-msgstr "Bildirimler"
-
 msgid "Data Management"
 msgstr "Veri Yönetimi"
-
-msgid "Daily Targets"
-msgstr "Günlük Hedefler"
 
 msgid "Daily page target: %1"
 msgstr "Günlük sayfa hedefi: %1"
@@ -120,12 +96,6 @@ msgstr "Günlük Süre Hedefi (dakika)"
 
 msgid "Off"
 msgstr "Kapalı"
-
-msgid "Test Notification"
-msgstr "Bildirim Testi"
-
-msgid "All reading streak data has been reset."
-msgstr "Tüm okuma serisi verileri sıfırlandı."
 
 msgid "Import from Statistics"
 msgstr "İstatistiklerden İçe Aktar"
@@ -154,14 +124,14 @@ msgstr "İstatistikler içe aktarılırken hata: %1"
 msgid "Error showing calendar: %1"
 msgstr "Takvim gösterilirken hata: %1"
 
-msgid "Error showing settings: %1"
-msgstr "Ayarlar gösterilirken hata: %1"
-
 msgid "Streak Goal: %1 days"
 msgstr "Seri Hedefi: %1 gün"
 
 msgid "Calendar streak display: %1"
 msgstr "Takvim seri görünümü: %1"
+
+msgid "Display"
+msgstr "Görünüm"
 
 msgid "Days"
 msgstr "Günler"
@@ -214,23 +184,11 @@ msgstr "Bu Haftanın Okuma Süresi"
 msgid "%1 seconds"
 msgstr "%1 saniye"
 
-msgid "%1 hours"
-msgstr "%1 saat"
-
-msgid "%1 hours %2 minutes"
-msgstr "%1 saat %2 dakika"
-
-msgid "Show Menu"
-msgstr "Menüyü Göster"
-
 msgid "UI Integration"
 msgstr "UI Entegrasyonu"
 
 msgid "Export to Project Title"
 msgstr "Project Title'a Aktar"
-
-msgid "Export to CoverBrowser"
-msgstr "CoverBrowser'a Aktar"
 
 msgid "No streak"
 msgstr "Seri yok"

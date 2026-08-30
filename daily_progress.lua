@@ -1,7 +1,6 @@
 -- Daily Progress Manager for Reading Streak plugin
 
-local UIManager = require("ui/uimanager")
-local InfoMessage = require("ui/widget/infomessage")
+local StreakNotifications = require("streak_notifications")
 local _ = require("readingstreak_gettext")
 local os = os
 
@@ -108,10 +107,11 @@ function DailyProgress.showDailyGoalAchievementMessage(reading_streak)
         return
     end
     if reading_streak.settings.show_notifications and not (reading_streak.settings.daily_progress and reading_streak.settings.daily_progress.notified) then
-        UIManager:show(InfoMessage:new{
-            text = _("Congratulations! You've met today's streak target!"),
-            timeout = nil,
-        })
+        StreakNotifications.show(
+            _("Congratulations! You've met today's streak target!"),
+            reading_streak.settings,
+            nil
+        )
         if reading_streak.settings.daily_progress then
             reading_streak.settings.daily_progress.notified = true
             reading_streak.settings.daily_progress.notified_date = reading_streak:getTodayString()

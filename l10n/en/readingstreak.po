@@ -17,23 +17,8 @@ msgstr "Congratulations! You've reached your streak goal of %1 days!"
 msgid "Congratulations! You've met today's streak target!"
 msgstr "Congratulations! You've met today's streak target!"
 
-msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
-msgstr "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
-
 msgid "Never"
 msgstr "Never"
-
-msgid "Set Streak Goal"
-msgstr "Set Streak Goal"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid "Set Goal"
-msgstr "Set Goal"
-
-msgid "Streak goal set to %1 days!"
-msgstr "Streak goal set to %1 days!"
 
 msgid "Reading streak has been reset!"
 msgstr "Reading streak has been reset!"
@@ -47,14 +32,8 @@ msgstr "Calendar View"
 msgid "Settings"
 msgstr "Settings"
 
-msgid "Reset Streak"
-msgstr "Reset Streak"
-
-msgid "Reading Streak Settings"
-msgstr "Reading Streak Settings"
-
-msgid "Streak Goal (days)"
-msgstr "Streak Goal (days)"
+msgid "Goals"
+msgstr "Goals"
 
 msgid "Streak Goal"
 msgstr "Streak Goal"
@@ -62,8 +41,14 @@ msgstr "Streak Goal"
 msgid "Show streak notifications"
 msgstr "Show streak notifications"
 
+msgid "Use toast notifications"
+msgstr "Use toast notifications"
+
 msgid "Automatically track reading"
 msgstr "Automatically track reading"
+
+msgid "Tracking"
+msgstr "Tracking"
 
 msgid "Reset All Data"
 msgstr "Reset All Data"
@@ -95,17 +80,8 @@ msgstr "%1 minutes"
 msgid "%1 days read out of %2"
 msgstr "%1 days read out of %2"
 
-msgid "Goals and Tracking"
-msgstr "Goals and Tracking"
-
-msgid "Notifications"
-msgstr "Notifications"
-
 msgid "Data Management"
 msgstr "Data Management"
-
-msgid "Daily Targets"
-msgstr "Daily Targets"
 
 msgid "Daily page target: %1"
 msgstr "Daily page target: %1"
@@ -122,12 +98,6 @@ msgstr "Daily Time Target (minutes)"
 msgid "Off"
 msgstr "Off"
 
-msgid "Test Notification"
-msgstr "Test Notification"
-
-msgid "All reading streak data has been reset."
-msgstr "All reading streak data has been reset."
-
 msgid "Import from Statistics"
 msgstr "Import from Statistics"
 
@@ -139,6 +109,9 @@ msgstr "No reading statistics found in database."
 
 msgid "No new reading statistics found in database."
 msgstr "No new reading statistics found in database."
+
+msgid "No days met the configured daily targets."
+msgstr "No days met the configured daily targets."
 
 msgid "Imported %1 reading days from statistics database."
 msgstr "Imported %1 reading days from statistics database."
@@ -152,14 +125,14 @@ msgstr "Error importing statistics: %1"
 msgid "Error showing calendar: %1"
 msgstr "Error showing calendar: %1"
 
-msgid "Error showing settings: %1"
-msgstr "Error showing settings: %1"
-
 msgid "Streak Goal: %1 days"
 msgstr "Streak Goal: %1 days"
 
 msgid "Calendar streak display: %1"
 msgstr "Calendar streak display: %1"
+
+msgid "Display"
+msgstr "Display"
 
 msgid "Days"
 msgstr "Days"
@@ -212,24 +185,11 @@ msgstr "This Week's Reading Time"
 msgid "%1 seconds"
 msgstr "%1 seconds"
 
-msgid "%1 hours"
-msgstr "%1 hours"
-
-msgid "%1 hours %2 minutes"
-msgstr "%1 hours %2 minutes"
-
-msgid "Show Menu"
-msgstr "Show Menu"
-
 msgid "UI Integration"
 msgstr "UI Integration"
 
 msgid "Export to Project Title"
 msgstr "Export to Project Title"
 
-msgid "Export to CoverBrowser"
-msgstr "Export to CoverBrowser"
-
 msgid "No streak"
 msgstr "No streak"
-

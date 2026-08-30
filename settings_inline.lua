@@ -124,6 +124,17 @@ function M.build(self)
                     if menu_instance and menu_instance.updateItems then menu_instance:updateItems() end
                 end,
             },
+            {
+                text = _("Use toast notifications"),
+                checked_func = function() return self.settings.toast_notifications == true end,
+                keep_menu_open = true,
+                check_callback_updates_menu = true,
+                callback = function(menu_instance)
+                    self.settings.toast_notifications = not (self.settings.toast_notifications == true)
+                    self:saveSettings()
+                    if menu_instance and menu_instance.updateItems then menu_instance:updateItems() end
+                end,
+            },
         },
     })
 

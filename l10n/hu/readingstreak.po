@@ -26,47 +26,8 @@ msgstr "Gratulálok! Elérted a(z) %1 napos széria célodat!"
 msgid "Congratulations! You've met today's streak target!"
 msgstr "Gratulálok! Elérted a mai széria célt!"
 
-msgid ""
-"%1 Current Streak: %2\n"
-"\n"
-"Progress to goal (%3):\n"
-"%4\n"
-"\n"
-"Longest Streak: %5\n"
-"Current Week Streak: %6\n"
-"Longest Week Streak: %7\n"
-"Total Days Read: %8\n"
-"\n"
-"First Read: %9\n"
-"Last Read: %10"
-msgstr ""
-"%1 Jelenlegi széria: %2\n"
-"\n"
-"Haladás a célhoz (%3):\n"
-"%4\n"
-"\n"
-"Leghosszabb széria: %5\n"
-"Jelenlegi heti széria: %6\n"
-"Leghosszabb heti széria: %7\n"
-"Olvasással töltött napok: %8\n"
-"\n"
-"Első olvasás: %9\n"
-"Legutóbbi olvasás: %10"
-
 msgid "Never"
 msgstr "Soha"
-
-msgid "Set Streak Goal"
-msgstr "Széria cél beállítása"
-
-msgid "Cancel"
-msgstr "Mégse"
-
-msgid "Set Goal"
-msgstr "Cél beállítása"
-
-msgid "Streak goal set to %1 days!"
-msgstr "Széria cél %1 napra beállítva!"
 
 msgid "Reading streak has been reset!"
 msgstr "Olvasási széria kinullázva!"
@@ -80,14 +41,8 @@ msgstr "Naptár nézet"
 msgid "Settings"
 msgstr "Beállíítások"
 
-msgid "Reset Streak"
-msgstr "Széria kinullázása"
-
-msgid "Reading Streak Settings"
-msgstr "Olvasási széria beállítások"
-
-msgid "Streak Goal (days)"
-msgstr "Széria cél (napok)"
+msgid "Goals"
+msgstr "Célok"
 
 msgid "Streak Goal"
 msgstr "Széria cél"
@@ -95,8 +50,14 @@ msgstr "Széria cél"
 msgid "Show streak notifications"
 msgstr "Széria értesítések mutatása"
 
+msgid "Use toast notifications"
+msgstr "Toast értesítések használata"
+
 msgid "Automatically track reading"
 msgstr "Olvasás automatikus követése"
+
+msgid "Tracking"
+msgstr "Követés"
 
 msgid "Reset All Data"
 msgstr "Minden adat kinullázása"
@@ -128,17 +89,8 @@ msgstr "%1 perc"
 msgid "%1 days read out of %2"
 msgstr "%1 nap a %2-ból/ből"
 
-msgid "Goals and Tracking"
-msgstr "Célok és követés"
-
-msgid "Notifications"
-msgstr "Értesítések"
-
 msgid "Data Management"
 msgstr "Adatok kezelése"
-
-msgid "Daily Targets"
-msgstr "Napi célok"
 
 msgid "Daily page target: %1"
 msgstr "Napi oldal cél: %1"
@@ -155,12 +107,6 @@ msgstr "Napi idő cél (perc)"
 msgid "Off"
 msgstr "Ki"
 
-msgid "Test Notification"
-msgstr "Teszt értesítés"
-
-msgid "All reading streak data has been reset."
-msgstr "Minden olvasási széria adat ki lett nullázva."
-
 msgid "Import from Statistics"
 msgstr "Importálás statisztikából"
 
@@ -172,6 +118,9 @@ msgstr "Nem található olvasási statisztika az adatbázisban."
 
 msgid "No new reading statistics found in database."
 msgstr "Nem található új olvasási statisztika."
+
+msgid "No days met the configured daily targets."
+msgstr "Egyetlen nap sem érte el a beállított napi célokat."
 
 msgid "Imported %1 reading days from statistics database."
 msgstr "%1 napnyi olvasási statisztika importálva."
@@ -185,14 +134,14 @@ msgstr "Hiba statisztika importáláskor: %1"
 msgid "Error showing calendar: %1"
 msgstr "Hiba naptár megjelenítésekor: %1"
 
-msgid "Error showing settings: %1"
-msgstr "Hiba beállítások megjelenítésekor: %1"
-
 msgid "Streak Goal: %1 days"
 msgstr "Széria cél: %1 nap"
 
 msgid "Calendar streak display: %1"
 msgstr "Naptárnézet: %1"
+
+msgid "Display"
+msgstr "Megjelenítés"
 
 msgid "Days"
 msgstr "Napok"
@@ -245,23 +194,11 @@ msgstr "Héten olvasott idő"
 msgid "%1 seconds"
 msgstr "%1 másodperc"
 
-msgid "%1 hours"
-msgstr "%1 óra"
-
-msgid "%1 hours %2 minutes"
-msgstr "%1 óra %2 perc"
-
-msgid "Show Menu"
-msgstr "Menü mutatása"
-
 msgid "UI Integration"
 msgstr "UI integráció"
 
 msgid "Export to Project Title"
 msgstr "Exportálás Project Title-be"
-
-msgid "Export to CoverBrowser"
-msgstr "Exportálás CoverBrowser-be"
 
 msgid "No streak"
 msgstr "Nincs széria"

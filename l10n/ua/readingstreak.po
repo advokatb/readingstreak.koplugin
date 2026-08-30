@@ -14,23 +14,11 @@ msgstr "Відстежуйте щоденні та тижневі серії ч�
 msgid "Congratulations! You've reached your streak goal of %1 days!"
 msgstr "Вітаємо! Ви досягли мети в %1 днів поспіль!"
 
-msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
-msgstr "%1 Поточна серія: %2\n\nПрогрес до мети (%3):\n%4\n\nНайдовша серія: %5\nПоточна тижнева серія: %6\nНайдовша тижнева серія: %7\nВсього днів читання: %8\n\nПерше читання: %9\nОстаннє читання: %10"
+msgid "Congratulations! You've met today's streak target!"
+msgstr "Вітаємо! Ви виконали сьогоднішню ціль серії!"
 
 msgid "Never"
 msgstr "Ніколи"
-
-msgid "Set Streak Goal"
-msgstr "Встановити мету"
-
-msgid "Cancel"
-msgstr "Скасувати"
-
-msgid "Set Goal"
-msgstr "Встановити"
-
-msgid "Streak goal set to %1 days!"
-msgstr "Мета встановлена на %1 днів!"
 
 msgid "Reading streak has been reset!"
 msgstr "Серія читання скинута!"
@@ -44,14 +32,8 @@ msgstr "Календарний вигляд"
 msgid "Settings"
 msgstr "Налаштування"
 
-msgid "Reset Streak"
-msgstr "Скинути серію"
-
-msgid "Reading Streak Settings"
-msgstr "Налаштування серії читання"
-
-msgid "Streak Goal (days)"
-msgstr "Мета серії (дні)"
+msgid "Goals"
+msgstr "Цілі"
 
 msgid "Streak Goal"
 msgstr "Мета серії"
@@ -59,8 +41,14 @@ msgstr "Мета серії"
 msgid "Show streak notifications"
 msgstr "Показувати сповіщення про серію"
 
+msgid "Use toast notifications"
+msgstr "Toast-сповіщення (без натискання)"
+
 msgid "Automatically track reading"
 msgstr "Автоматично відстежувати читання"
+
+msgid "Tracking"
+msgstr "Відстеження"
 
 msgid "Reset All Data"
 msgstr "Скинути всі дані"
@@ -92,11 +80,8 @@ msgstr "%1 тижнів"
 msgid "%1 days read out of %2"
 msgstr "%1 днів прочитано з %2"
 
-msgid "Goals and Tracking"
-msgstr "Мети та відстеження"
-
-msgid "Daily Targets"
-msgstr "Щоденні цілі"
+msgid "Data Management"
+msgstr "Управління даними"
 
 msgid "Daily page target: %1"
 msgstr "Щоденна ціль за сторінками: %1"
@@ -112,18 +97,6 @@ msgstr "Щоденна ціль за часом (хвилини)"
 
 msgid "Off"
 msgstr "Вимкнено"
-
-msgid "Notifications"
-msgstr "Сповіщення"
-
-msgid "Data Management"
-msgstr "Управління даними"
-
-msgid "Test Notification"
-msgstr "Тестове сповіщення"
-
-msgid "All reading streak data has been reset."
-msgstr "Всі дані про серію читання скинуті."
 
 msgid "Import from Statistics"
 msgstr "Імпортувати зі статистики"
@@ -152,14 +125,14 @@ msgstr "Помилка при імпорті статистики: %1"
 msgid "Error showing calendar: %1"
 msgstr "Помилка при відображенні календаря: %1"
 
-msgid "Error showing settings: %1"
-msgstr "Помилка при відображенні налаштувань: %1"
-
 msgid "Streak Goal: %1 days"
 msgstr "Мета серії: %1 днів"
 
 msgid "Calendar streak display: %1"
 msgstr "Відображення серії в календарі: %1"
+
+msgid "Display"
+msgstr "Відображення"
 
 msgid "Days"
 msgstr "Дні"
@@ -212,24 +185,11 @@ msgstr "Час читання на цьому тижні"
 msgid "%1 seconds"
 msgstr "%1 секунд"
 
-msgid "%1 hours"
-msgstr "%1 годин"
-
-msgid "%1 hours %2 minutes"
-msgstr "%1 годин %2 хвилин"
-
-msgid "Show Menu"
-msgstr "Показати меню"
-
 msgid "UI Integration"
 msgstr "Інтеграція з інтерфейсом"
 
 msgid "Export to Project Title"
 msgstr "Експорт в Project Title"
 
-msgid "Export to CoverBrowser"
-msgstr "Експорт в CoverBrowser"
-
 msgid "No streak"
 msgstr "Немає серії"
-

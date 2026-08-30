@@ -20,23 +20,8 @@ msgstr "Gratulacje! Osiągnąłeś swój cel serii: %1 dni!"
 msgid "Congratulations! You've met today's streak target!"
 msgstr "Gratulacje! Dzisiejszy cel serii został osiągnięty!"
 
-msgid "%1 Current Streak: %2\n\nProgress to goal (%3):\n%4\n\nLongest Streak: %5\nCurrent Week Streak: %6\nLongest Week Streak: %7\nTotal Days Read: %8\n\nFirst Read: %9\nLast Read: %10"
-msgstr "%1 Bieżąca seria: %2\n\nPostęp celu (%3):\n%4\n\nNajdłuższa seria: %5\nBieżąca seria tygodniowa: %6\nNajdłuższa seria tygodniowa: %7\nŁącznie dni czytania: %8\n\nPierwszy raz czytano: %9\nOstatni raz czytano: %10"
-
 msgid "Never"
 msgstr "Nigdy"
-
-msgid "Set Streak Goal"
-msgstr "Ustaw cel serii"
-
-msgid "Cancel"
-msgstr "Anuluj"
-
-msgid "Set Goal"
-msgstr "Ustaw cel"
-
-msgid "Streak goal set to %1 days!"
-msgstr "Cel serii ustawiony na %1 dni!"
 
 msgid "Reading streak has been reset!"
 msgstr "Seria czytania została zresetowana!"
@@ -50,14 +35,8 @@ msgstr "Widok kalendarza"
 msgid "Settings"
 msgstr "Ustawienia"
 
-msgid "Reset Streak"
-msgstr "Resetuj serię"
-
-msgid "Reading Streak Settings"
-msgstr "Ustawienia serii czytania"
-
-msgid "Streak Goal (days)"
-msgstr "Cel serii (dni)"
+msgid "Goals"
+msgstr "Cele"
 
 msgid "Streak Goal"
 msgstr "Cel serii"
@@ -65,8 +44,14 @@ msgstr "Cel serii"
 msgid "Show streak notifications"
 msgstr "Pokaż powiadomienia o serii"
 
+msgid "Use toast notifications"
+msgstr "Powiadomienia toast (bez dotknięcia)"
+
 msgid "Automatically track reading"
 msgstr "Automatycznie śledź czytanie"
+
+msgid "Tracking"
+msgstr "Śledzenie"
 
 msgid "Reset All Data"
 msgstr "Resetuj wszystkie dane"
@@ -98,17 +83,8 @@ msgstr "%1 min"
 msgid "%1 days read out of %2"
 msgstr "%1 dni przeczytanych z %2"
 
-msgid "Goals and Tracking"
-msgstr "Cele i śledzenie"
-
-msgid "Notifications"
-msgstr "Powiadomienia"
-
 msgid "Data Management"
 msgstr "Zarządzanie danymi"
-
-msgid "Daily Targets"
-msgstr "Cele dzienne"
 
 msgid "Daily page target: %1"
 msgstr "Dzienny cel stron: %1"
@@ -125,12 +101,6 @@ msgstr "Dzienny cel czasu (minuty)"
 msgid "Off"
 msgstr "Wyłączone"
 
-msgid "Test Notification"
-msgstr "Powiadomienie testowe"
-
-msgid "All reading streak data has been reset."
-msgstr "Wszystkie dane serii czytania zostały zresetowane."
-
 msgid "Import from Statistics"
 msgstr "Importuj ze statystyk"
 
@@ -142,6 +112,9 @@ msgstr "Nie znaleziono statystyk czytania w bazie danych."
 
 msgid "No new reading statistics found in database."
 msgstr "Nie znaleziono nowych statystyk czytania w bazie danych."
+
+msgid "No days met the configured daily targets."
+msgstr "Żaden dzień nie spełnił ustawionych celów dziennych."
 
 msgid "Imported %1 reading days from statistics database."
 msgstr "Zaimportowano %1 dni czytania z bazy danych statystyk."
@@ -155,14 +128,14 @@ msgstr "Błąd importu statystyk: %1"
 msgid "Error showing calendar: %1"
 msgstr "Błąd wyświetlania kalendarza: %1"
 
-msgid "Error showing settings: %1"
-msgstr "Błąd wyświetlania ustawień: %1"
-
 msgid "Streak Goal: %1 days"
 msgstr "Cel serii: %1 dni"
 
 msgid "Calendar streak display: %1"
 msgstr "Widok serii w kalendarzu: %1"
+
+msgid "Display"
+msgstr "Wyświetlanie"
 
 msgid "Days"
 msgstr "Dni"
@@ -215,23 +188,11 @@ msgstr "Czas czytania w tym tygodniu"
 msgid "%1 seconds"
 msgstr "%1 sek."
 
-msgid "%1 hours"
-msgstr "%1 godz."
-
-msgid "%1 hours %2 minutes"
-msgstr "%1 godz. %2 min"
-
-msgid "Show Menu"
-msgstr "Pokaż menu"
-
 msgid "UI Integration"
 msgstr "Integracja interfejsu"
 
 msgid "Export to Project Title"
 msgstr "Eksportuj do tytułu projektu"
-
-msgid "Export to CoverBrowser"
-msgstr "Eksportuj do CoverBrowser"
 
 msgid "No streak"
 msgstr "Brak serii"

@@ -1,7 +1,7 @@
 local UIManager = require("ui/uimanager")
 local SpinWidget = require("ui/widget/spinwidget")
 local ConfirmBox = require("ui/widget/confirmbox")
-local _ = require("readingstreak_gettext")
+local _ = require("lib/readingstreak_i18n").gettext
 local T = require("ffi/util").template
 
 local M = {}

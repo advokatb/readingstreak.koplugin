@@ -18,7 +18,7 @@ jobs:
       - name: Install gettext
         run: sudo apt-get update && sudo apt-get install -y gettext
       
-      - name: Convert PO files to MO
+      - name: Validate locale PO files
         run: |
           if [ -f scripts/po2mo.sh ]; then
             chmod +x scripts/po2mo.sh

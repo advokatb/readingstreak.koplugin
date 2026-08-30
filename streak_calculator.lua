@@ -1,7 +1,7 @@
 -- Streak Calculator for Reading Streak plugin
 
 local StreakNotifications = require("streak_notifications")
-local _ = require("readingstreak_gettext")
+local _ = require("lib/readingstreak_i18n").gettext
 local T = require("ffi/util").template
 
 local StreakCalculator = {}

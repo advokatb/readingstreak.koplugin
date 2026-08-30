@@ -1,7 +1,7 @@
 -- Daily Progress Manager for Reading Streak plugin
 
 local StreakNotifications = require("streak_notifications")
-local _ = require("readingstreak_gettext")
+local _ = require("lib/readingstreak_i18n").gettext
 local os = os
 
 local MAX_TRACKED_INTERVAL = 45 * 60

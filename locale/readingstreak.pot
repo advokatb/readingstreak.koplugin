@@ -1,0 +1,196 @@
+# readingstreak.koplugin translation template.
+msgid ""
+msgstr ""
+"Project-Id-Version: readingstreak.koplugin\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Reading Streak"
+msgstr ""
+
+msgid "Track your daily and weekly reading streaks similar to Kindle Streak. View calendar, set goals, and celebrate milestones."
+msgstr ""
+
+msgid "Congratulations! You've reached your streak goal of %1 days!"
+msgstr ""
+
+msgid "Congratulations! You've met today's streak target!"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Reading streak has been reset!"
+msgstr ""
+
+msgid "View Streak"
+msgstr ""
+
+msgid "Calendar View"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Goals"
+msgstr ""
+
+msgid "Streak Goal"
+msgstr ""
+
+msgid "Show streak notifications"
+msgstr ""
+
+msgid "Use toast notifications"
+msgstr ""
+
+msgid "Automatically track reading"
+msgstr ""
+
+msgid "Tracking"
+msgstr ""
+
+msgid "Reset All Data"
+msgstr ""
+
+msgid "Are you sure you want to reset all reading streak data?"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "1 day"
+msgstr ""
+
+msgid "%1 days"
+msgstr ""
+
+msgid "1 week"
+msgstr ""
+
+msgid "%1 weeks"
+msgstr ""
+
+msgid "%1 pages"
+msgstr ""
+
+msgid "%1 minutes"
+msgstr ""
+
+msgid "%1 days read out of %2"
+msgstr ""
+
+msgid "Data Management"
+msgstr ""
+
+msgid "Daily page target: %1"
+msgstr ""
+
+msgid "Daily time target: %1"
+msgstr ""
+
+msgid "Daily Page Target"
+msgstr ""
+
+msgid "Daily Time Target (minutes)"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Import from Statistics"
+msgstr ""
+
+msgid "Statistics database not found."
+msgstr ""
+
+msgid "No reading statistics found in database."
+msgstr ""
+
+msgid "No new reading statistics found in database."
+msgstr ""
+
+msgid "No days met the configured daily targets."
+msgstr ""
+
+msgid "Imported %1 reading days from statistics database."
+msgstr ""
+
+msgid "Imported %1 reading days; skipped %2 days below daily targets."
+msgstr ""
+
+msgid "Error importing statistics: %1"
+msgstr ""
+
+msgid "Error showing calendar: %1"
+msgstr ""
+
+msgid "Streak Goal: %1 days"
+msgstr ""
+
+msgid "Calendar streak display: %1"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Days"
+msgstr ""
+
+msgid "Weeks"
+msgstr ""
+
+msgid "Both"
+msgstr ""
+
+msgid "Current streak: %1"
+msgstr ""
+
+msgid "Current week streak: %1"
+msgstr ""
+
+msgid "Longest Streak"
+msgstr ""
+
+msgid "Total Days Read"
+msgstr ""
+
+msgid "First Read"
+msgstr ""
+
+msgid "Last Read"
+msgstr ""
+
+msgid "Progress to goal"
+msgstr ""
+
+msgid "Current Streak"
+msgstr ""
+
+msgid "Current Week Streak"
+msgstr ""
+
+msgid "Longest Week Streak"
+msgstr ""
+
+msgid "Today's Pages Read"
+msgstr ""
+
+msgid "Today's Reading Time"
+msgstr ""
+
+msgid "This Week's Reading Time"
+msgstr ""
+
+msgid "%1 seconds"
+msgstr ""
+
+msgid "UI Integration"
+msgstr ""
+
+msgid "Export to Project Title"
+msgstr ""
+
+msgid "No streak"
+msgstr ""
+

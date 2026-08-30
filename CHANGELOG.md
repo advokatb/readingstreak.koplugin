@@ -7,6 +7,10 @@
 
 ### Changed
 - Removed dead code and unused translations left over from the old modal settings dialog.
+- Translations load directly from `locale/*.po` at runtime — no `.mo` compilation required. Ukrainian locale code is now `uk`.
+
+### Fixed
+- Skip Project Title footer integration when Project Title is missing, so uninstalling or renaming it no longer crash-loops KOReader ([#14](https://github.com/advokatb/readingstreak.koplugin/issues/14)).
 
 ## [1.3.7] - 2026-08-05
 

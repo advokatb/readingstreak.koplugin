@@ -119,12 +119,19 @@ The settings menu is organized into submenus:
 
 ## Localization
 
-To add new translations, create `.po` files in the `l10n/[language]/koreader.po` directory. Currently supported languages:
-- English (en)
-- Russian (ru)
-- Ukrainian (ua)
-- Turkish (tr)
-- Hungarian (hu)
+Translations are loaded at runtime from `locale/<lang>.po` — no `.mo` compilation needed.
+
+To add a language:
+1. Copy `locale/readingstreak.pot` to `locale/<lang>.po` (e.g. `locale/ru.po`)
+2. Fill in the `msgstr` values
+
+Currently supported languages:
+- English (source strings)
+- Russian (`ru`)
+- Ukrainian (`uk`)
+- Polish (`pl`)
+- Turkish (`tr`)
+- Hungarian (`hu`)
 
 ## Technical Details
 

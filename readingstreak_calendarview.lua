@@ -26,7 +26,7 @@ local OverlapGroup = require("ui/widget/overlapgroup")
 local datetime = require("datetime")
 local Input = Device.input
 local Screen = Device.screen
-local _ = require("readingstreak_gettext")
+local _ = require("lib/readingstreak_i18n").gettext
 local T = require("ffi/util").template
 local Size = require("ui/size")
 

@@ -6,7 +6,7 @@ local InfoMessage = require("ui/widget/infomessage")
 local logger = require("logger")
 local lfs = require("libs/libkoreader-lfs")
 local SQ3 = require("lua-ljsqlite3/init")
-local _ = require("readingstreak_gettext")
+local _ = require("lib/readingstreak_i18n").gettext
 local T = require("ffi/util").template
 local pcall = pcall
 

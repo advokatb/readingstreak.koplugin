@@ -43,6 +43,51 @@ msgstr "Seri bildirimlerini göster"
 msgid "Use toast notifications"
 msgstr "Toast bildirimleri kullan"
 
+msgid "Colors"
+msgstr "Renkler"
+
+msgid "Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."
+msgstr "Toast bildirimleri ve takvim için renk seçenekleri. Yalnızca renkli ekranlarda; gri tonlama ve gece modunda varsayılan renkler kalır."
+
+msgid "Toast color: %1"
+msgstr "Toast rengi: %1"
+
+msgid "Background color for toast notifications. Greyscale and night mode keep the stock white toast."
+msgstr "Toast bildirimlerinin arka plan rengi. Gri tonlama ve gece modunda beyaz toast kalır."
+
+msgid "Calendar fill: %1"
+msgstr "Takvim dolgusu: %1"
+
+msgid "Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."
+msgstr "Takvimde streak günlerinin dolgu rengi. Gri tonlama ve gece modunda varsayılan gri kalır."
+
+msgid "Toast color preview"
+msgstr "Toast renk önizlemesi"
+
+msgid "White"
+msgstr "Beyaz"
+
+msgid "Green"
+msgstr "Yeşil"
+
+msgid "Teal"
+msgstr "Camgöbeği"
+
+msgid "Blue"
+msgstr "Mavi"
+
+msgid "Gold"
+msgstr "Altın"
+
+msgid "Orange"
+msgstr "Turuncu"
+
+msgid "Red"
+msgstr "Kırmızı"
+
+msgid "Gray"
+msgstr "Gri"
+
 msgid "Automatically track reading"
 msgstr "Okumayı otomatik takip et"
 

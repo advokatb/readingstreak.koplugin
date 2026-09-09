@@ -44,6 +44,51 @@ msgstr ""
 msgid "Use toast notifications"
 msgstr ""
 
+msgid "Colors"
+msgstr ""
+
+msgid "Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."
+msgstr ""
+
+msgid "Toast color: %1"
+msgstr ""
+
+msgid "Background color for toast notifications. Greyscale and night mode keep the stock white toast."
+msgstr ""
+
+msgid "Calendar fill: %1"
+msgstr ""
+
+msgid "Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."
+msgstr ""
+
+msgid "Toast color preview"
+msgstr ""
+
+msgid "White"
+msgstr ""
+
+msgid "Green"
+msgstr ""
+
+msgid "Teal"
+msgstr ""
+
+msgid "Blue"
+msgstr ""
+
+msgid "Gold"
+msgstr ""
+
+msgid "Orange"
+msgstr ""
+
+msgid "Red"
+msgstr ""
+
+msgid "Gray"
+msgstr ""
+
 msgid "Automatically track reading"
 msgstr ""
 

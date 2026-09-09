@@ -47,6 +47,51 @@ msgstr "Pokaż powiadomienia o serii"
 msgid "Use toast notifications"
 msgstr "Powiadomienia toast (bez dotknięcia)"
 
+msgid "Colors"
+msgstr "Kolory"
+
+msgid "Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."
+msgstr "Opcje kolorów dla toastów i kalendarza. Tylko ekrany kolorowe; na czarno-białych i w trybie nocnym — kolory domyślne."
+
+msgid "Toast color: %1"
+msgstr "Kolor toasta: %1"
+
+msgid "Background color for toast notifications. Greyscale and night mode keep the stock white toast."
+msgstr "Kolor tła powiadomień toast. Na czarno-białych i w trybie nocnym zostaje biały toast."
+
+msgid "Calendar fill: %1"
+msgstr "Wypełnienie kalendarza: %1"
+
+msgid "Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."
+msgstr "Kolor wypełnienia dni ze streakiem w kalendarzu. Na czarno-białych i w trybie nocnym zostaje szare wypełnienie."
+
+msgid "Toast color preview"
+msgstr "Podgląd koloru toasta"
+
+msgid "White"
+msgstr "Biały"
+
+msgid "Green"
+msgstr "Zielony"
+
+msgid "Teal"
+msgstr "Morski"
+
+msgid "Blue"
+msgstr "Niebieski"
+
+msgid "Gold"
+msgstr "Złoty"
+
+msgid "Orange"
+msgstr "Pomarańczowy"
+
+msgid "Red"
+msgstr "Czerwony"
+
+msgid "Gray"
+msgstr "Szary"
+
 msgid "Automatically track reading"
 msgstr "Automatycznie śledź czytanie"
 

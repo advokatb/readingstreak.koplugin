@@ -7,5 +7,5 @@ return {
     name = "readingstreak",
     fullname = _("Reading Streak"),
     description = _([[Track your daily and weekly reading streaks similar to Kindle Streak. View calendar, set goals, and celebrate milestones.]]),
-    version = "1.4.0",
+    version = "1.5.0",
 }

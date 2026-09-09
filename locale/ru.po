@@ -44,6 +44,51 @@ msgstr "Показывать уведомления о серии"
 msgid "Use toast notifications"
 msgstr "Toast-уведомления (без тапа)"
 
+msgid "Colors"
+msgstr "Цвета"
+
+msgid "Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."
+msgstr "Цветовые настройки toast-уведомлений и календаря. Только для цветных экранов; на ч/б и в ночном режиме — стандартные цвета."
+
+msgid "Toast color: %1"
+msgstr "Цвет toast: %1"
+
+msgid "Background color for toast notifications. Greyscale and night mode keep the stock white toast."
+msgstr "Цвет фона toast-уведомлений. На ч/б и в ночном режиме остаётся белый toast."
+
+msgid "Calendar fill: %1"
+msgstr "Заливка календаря: %1"
+
+msgid "Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."
+msgstr "Цвет заливки дней со стриком в календаре. На ч/б и в ночном режиме остаётся серая заливка."
+
+msgid "Toast color preview"
+msgstr "Пример цвета toast"
+
+msgid "White"
+msgstr "Белый"
+
+msgid "Green"
+msgstr "Зелёный"
+
+msgid "Teal"
+msgstr "Бирюзовый"
+
+msgid "Blue"
+msgstr "Синий"
+
+msgid "Gold"
+msgstr "Золотой"
+
+msgid "Orange"
+msgstr "Оранжевый"
+
+msgid "Red"
+msgstr "Красный"
+
+msgid "Gray"
+msgstr "Серый"
+
 msgid "Automatically track reading"
 msgstr "Автоматически отслеживать чтение"
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0] - 2026-09-09
+
+### Added
+- **Colors** settings submenu on colour screens (Settings → **Colors**):
+  - **Toast color** — background tint for toast notifications (default white).
+  - **Calendar fill** — fill colour for streak days in the calendar (default stock gray).
+
 ## [1.4.0] - 2026-08-30
 
 ### Added

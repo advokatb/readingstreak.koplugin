@@ -16,6 +16,7 @@ local HorizontalSpan = require("ui/widget/horizontalspan")
 local InputContainer = require("ui/widget/container/inputcontainer")
 local LeftContainer = require("ui/widget/container/leftcontainer")
 local Size = require("ui/size")
+local StreakColors = require("streak_colors")
 local TextWidget = require("ui/widget/textwidget")
 local TitleBar = require("ui/widget/titlebar")
 local UIManager = require("ui/uimanager")
@@ -38,6 +39,9 @@ local CalendarDay = InputContainer:extend{
     border = 0,
     is_future = false,
     is_read = false,
+    -- Optional colour-screen fill/fg for read days (nil = stock gray / black)
+    read_bgcolor = nil,
+    read_fgcolor = nil,
     font_face = "xx_smallinfofont",
     font_size = nil,
 }
@@ -47,10 +51,16 @@ function CalendarDay:init()
     if self.filler then
         return
     end
-    
+
     local fgcolor = self.is_future and Blitbuffer.COLOR_GRAY or Blitbuffer.COLOR_BLACK
-    local bgcolor = self.is_read and Blitbuffer.COLOR_GRAY_4 or Blitbuffer.COLOR_WHITE
-    
+    local bgcolor = Blitbuffer.COLOR_WHITE
+    if self.is_read then
+        bgcolor = self.read_bgcolor or Blitbuffer.COLOR_GRAY_4
+        if self.read_fgcolor then
+            fgcolor = self.read_fgcolor
+        end
+    end
+
     self.daynum_w = TextWidget:new{
         text = " " .. tostring(self.daynum) .. ".",
         face = Font:getFace(self.font_face, self.font_size),
@@ -305,7 +315,12 @@ function CalendarView:_populateItems()
         local day_s = os.date("%Y-%m-%d", cur_ts)
         local is_future = day_s > today_s
         local is_read = reading_days[day_s] == true
-        
+        local read_bgcolor, read_fgcolor
+        if is_read then
+            read_bgcolor, read_fgcolor = StreakColors.calendarReadColors(
+                self.reading_streak and self.reading_streak.settings)
+        end
+
         local calendar_day = CalendarDay:new{
             daynum = cur_date.day,
             height = self.week_height,
@@ -313,6 +328,8 @@ function CalendarView:_populateItems()
             border = self.day_border,
             is_future = is_future,
             is_read = is_read,
+            read_bgcolor = read_bgcolor,
+            read_fgcolor = read_fgcolor,
             font_face = "xx_smallinfofont",
             font_size = self.span_font_size,
         }

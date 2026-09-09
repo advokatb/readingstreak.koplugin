@@ -53,6 +53,51 @@ msgstr "Széria értesítések mutatása"
 msgid "Use toast notifications"
 msgstr "Toast értesítések használata"
 
+msgid "Colors"
+msgstr "Színek"
+
+msgid "Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."
+msgstr "Színbeállítások toast értesítésekhez és a naptárhoz. Csak színes kijelzőn; szürkeárnyalatos és éjszakai módban az alapértelmezett színek maradnak."
+
+msgid "Toast color: %1"
+msgstr "Toast szín: %1"
+
+msgid "Background color for toast notifications. Greyscale and night mode keep the stock white toast."
+msgstr "A toast értesítések háttérszíne. Szürkeárnyalatos és éjszakai módban fehér marad."
+
+msgid "Calendar fill: %1"
+msgstr "Naptár kitöltés: %1"
+
+msgid "Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."
+msgstr "A streak napok kitöltőszíne a naptárban. Szürkeárnyalatos és éjszakai módban a szokásos szürke marad."
+
+msgid "Toast color preview"
+msgstr "Toast szín előnézete"
+
+msgid "White"
+msgstr "Fehér"
+
+msgid "Green"
+msgstr "Zöld"
+
+msgid "Teal"
+msgstr "Kékeszöld"
+
+msgid "Blue"
+msgstr "Kék"
+
+msgid "Gold"
+msgstr "Arany"
+
+msgid "Orange"
+msgstr "Narancs"
+
+msgid "Red"
+msgstr "Piros"
+
+msgid "Gray"
+msgstr "Szürke"
+
 msgid "Automatically track reading"
 msgstr "Olvasás automatikus követése"
 

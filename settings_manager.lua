@@ -58,6 +58,15 @@ function SettingsManager.loadSettings(reading_streak)
         if not reading_streak.settings.daily_progress or type(reading_streak.settings.daily_progress) ~= "table" then
             reading_streak.settings.daily_progress = {}
         end
+        if reading_streak.settings.toast_notifications == nil then
+            reading_streak.settings.toast_notifications = false
+        end
+        if reading_streak.settings.toast_bg_color == nil then
+            reading_streak.settings.toast_bg_color = nil
+        end
+        if reading_streak.settings.calendar_fill_color == nil then
+            reading_streak.settings.calendar_fill_color = nil -- stock COLOR_GRAY_4
+        end
         -- Default to false (disabled) for integration exports
         if reading_streak.settings.export_to_projecttitle == nil then
             reading_streak.settings.export_to_projecttitle = false
@@ -78,6 +87,8 @@ function SettingsManager.loadSettings(reading_streak)
             reading_history = {},
             show_notifications = true,
             toast_notifications = false,
+            toast_bg_color = nil,
+            calendar_fill_color = nil,
             auto_track = true,
             calendar_streak_display = "both",
             daily_page_threshold = DEFAULT_DAILY_PAGE_THRESHOLD,

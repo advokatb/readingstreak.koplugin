@@ -1,8 +1,12 @@
 local UIManager = require("ui/uimanager")
+local Device = require("device")
 local SpinWidget = require("ui/widget/spinwidget")
 local ConfirmBox = require("ui/widget/confirmbox")
+local StreakColors = require("streak_colors")
+local StreakNotifications = require("streak_notifications")
 local _ = require("lib/readingstreak_i18n").gettext
 local T = require("ffi/util").template
+local Screen = Device.screen
 
 local M = {}
 
@@ -12,6 +16,32 @@ local function thresholdText(value, unit)
     if unit == "pages" then return T(_("%1 pages"), value) end
     if unit == "minutes" then return T(_("%1 minutes"), value) end
     return tostring(value)
+end
+
+local function buildColorItems(presets, get_current, set_current, on_preview)
+    local items = {}
+    for _, preset in ipairs(presets) do
+        local hex = preset.hex
+        table.insert(items, {
+            text = preset.label,
+            checked_func = function()
+                local current = get_current()
+                if not hex then
+                    return current == nil or current == false or current == ""
+                end
+                return current == hex
+            end,
+            radio = true,
+            keep_menu_open = true,
+            check_callback_updates_menu = true,
+            callback = function(menu_instance)
+                set_current(hex or false)
+                if on_preview then on_preview() end
+                if menu_instance and menu_instance.updateItems then menu_instance:updateItems() end
+            end,
+        })
+    end
+    return items
 end
 
 function M.build(self)
@@ -137,6 +167,48 @@ function M.build(self)
             },
         },
     })
+
+    -- Colors submenu (colour screens only)
+    if Screen.isColorEnabled and Screen:isColorEnabled() then
+        local toast_color_items = buildColorItems(
+            StreakColors.TOAST_COLORS,
+            function() return self.settings.toast_bg_color end,
+            function(v)
+                self.settings.toast_bg_color = v
+                self:saveSettings()
+            end,
+            function() StreakNotifications.preview(self.settings) end
+        )
+        local calendar_color_items = buildColorItems(
+            StreakColors.CALENDAR_COLORS,
+            function() return self.settings.calendar_fill_color end,
+            function(v)
+                self.settings.calendar_fill_color = v
+                self:saveSettings()
+            end,
+            nil
+        )
+        table.insert(items, {
+            text = _("Colors"),
+            help_text = _("Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."),
+            sub_item_table = {
+                {
+                    text_func = function()
+                        return T(_("Toast color: %1"), StreakColors.toastLabel(self.settings.toast_bg_color))
+                    end,
+                    help_text = _("Background color for toast notifications. Greyscale and night mode keep the stock white toast."),
+                    sub_item_table = toast_color_items,
+                },
+                {
+                    text_func = function()
+                        return T(_("Calendar fill: %1"), StreakColors.calendarLabel(self.settings.calendar_fill_color))
+                    end,
+                    help_text = _("Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."),
+                    sub_item_table = calendar_color_items,
+                },
+            },
+        })
+    end
 
     -- Display submenu
     table.insert(items, {

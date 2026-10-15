@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- Slovak (`sk`) and Czech (`cs`) translations.
+
 ## [1.5.0] - 2026-09-09
 
 ### Added

@@ -1,0 +1,243 @@
+# Czech translation for Reading Streak Plugin
+# Copyright (C) 2026
+msgid ""
+msgstr ""
+"Project-Id-Version: Reading Streak\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+msgid "Reading Streak"
+msgstr "Čtenářská série"
+
+msgid "Track your daily and weekly reading streaks similar to Kindle Streak. View calendar, set goals, and celebrate milestones."
+msgstr "Sledujte své denní a týdenní čtenářské série podobně jako v Kindle Streak. Prohlížejte si kalendář, stanovte si cíle a oslavujte úspěchy."
+
+msgid "Congratulations! You've reached your streak goal of %1 days!"
+msgstr "Gratulujeme! Dosáhli jste cíle série: %1 dní!"
+
+msgid "Congratulations! You've met today's streak target!"
+msgstr "Gratulujeme! Dnešní cíl série je splněn!"
+
+msgid "Never"
+msgstr "Nikdy"
+
+msgid "Reading streak has been reset!"
+msgstr "Čtenářská série byla vynulována!"
+
+msgid "View Streak"
+msgstr "Zobrazit sérii"
+
+msgid "Calendar View"
+msgstr "Zobrazení kalendáře"
+
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Goals"
+msgstr "Cíle"
+
+msgid "Streak Goal"
+msgstr "Cíl série"
+
+msgid "Show streak notifications"
+msgstr "Zobrazovat upozornění na sérii"
+
+msgid "Use toast notifications"
+msgstr "Použít vyskakovací upozornění"
+
+msgid "Colors"
+msgstr "Barvy"
+
+msgid "Colour options for toast notifications and calendar. Colour screens only; greyscale and night mode keep stock colours."
+msgstr "Nastavení barev pro vyskakovací upozornění a kalendář. Pouze pro barevné displeje; v odstínech šedi a v nočním režimu zůstávají výchozí barvy."
+
+msgid "Toast color: %1"
+msgstr "Barva upozornění: %1"
+
+msgid "Background color for toast notifications. Greyscale and night mode keep the stock white toast."
+msgstr "Barva pozadí vyskakovacích upozornění. V odstínech šedi a v nočním režimu zůstává výchozí bílé upozornění."
+
+msgid "Calendar fill: %1"
+msgstr "Výplň kalendáře: %1"
+
+msgid "Fill color for days with a reading streak in the calendar. Greyscale and night mode keep the stock gray fill."
+msgstr "Barva výplně dnů s čtenářskou sérií v kalendáři. V odstínech šedi a v nočním režimu zůstává výchozí šedá výplň."
+
+msgid "Toast color preview"
+msgstr "Náhled barvy upozornění"
+
+msgid "White"
+msgstr "Bílá"
+
+msgid "Green"
+msgstr "Zelená"
+
+msgid "Teal"
+msgstr "Modrozelená"
+
+msgid "Blue"
+msgstr "Modrá"
+
+msgid "Gold"
+msgstr "Zlatá"
+
+msgid "Orange"
+msgstr "Oranžová"
+
+msgid "Red"
+msgstr "Červená"
+
+msgid "Gray"
+msgstr "Šedá"
+
+msgid "Automatically track reading"
+msgstr "Automaticky sledovat čtení"
+
+msgid "Tracking"
+msgstr "Sledování"
+
+msgid "Reset All Data"
+msgstr "Vynulovat všechna data"
+
+msgid "Are you sure you want to reset all reading streak data?"
+msgstr "Opravdu chcete vynulovat všechna data čtenářské série?"
+
+msgid "Reset"
+msgstr "Vynulovat"
+
+msgid "1 day"
+msgstr "1 den"
+
+msgid "%1 days"
+msgstr "%1 dní"
+
+msgid "1 week"
+msgstr "1 týden"
+
+msgid "%1 weeks"
+msgstr "%1 týdnů"
+
+msgid "%1 pages"
+msgstr "%1 stran"
+
+msgid "%1 minutes"
+msgstr "%1 minut"
+
+msgid "%1 days read out of %2"
+msgstr "Přečtené dny: %1 z %2"
+
+msgid "Data Management"
+msgstr "Správa dat"
+
+msgid "Daily page target: %1"
+msgstr "Denní cíl stran: %1"
+
+msgid "Daily time target: %1"
+msgstr "Denní časový cíl: %1"
+
+msgid "Daily Page Target"
+msgstr "Denní cíl stran"
+
+msgid "Daily Time Target (minutes)"
+msgstr "Denní časový cíl (minuty)"
+
+msgid "Off"
+msgstr "Vypnuto"
+
+msgid "Import from Statistics"
+msgstr "Importovat ze statistik"
+
+msgid "Statistics database not found."
+msgstr "Databáze statistik nebyla nalezena."
+
+msgid "No reading statistics found in database."
+msgstr "V databázi nebyly nalezeny žádné statistiky čtení."
+
+msgid "No new reading statistics found in database."
+msgstr "V databázi nebyly nalezeny žádné nové statistiky čtení."
+
+msgid "No days met the configured daily targets."
+msgstr "Žádný den nesplnil nastavené denní cíle."
+
+msgid "Imported %1 reading days from statistics database."
+msgstr "Z databáze statistik bylo importováno %1 dní čtení."
+
+msgid "Imported %1 reading days; skipped %2 days below daily targets."
+msgstr "Importováno %1 dní čtení; přeskočeno %2 dní pod denními cíli."
+
+msgid "Error importing statistics: %1"
+msgstr "Chyba při importu statistik: %1"
+
+msgid "Error showing calendar: %1"
+msgstr "Chyba při zobrazení kalendáře: %1"
+
+msgid "Streak Goal: %1 days"
+msgstr "Cíl série: %1 dní"
+
+msgid "Calendar streak display: %1"
+msgstr "Zobrazení série v kalendáři: %1"
+
+msgid "Display"
+msgstr "Zobrazení"
+
+msgid "Days"
+msgstr "Dny"
+
+msgid "Weeks"
+msgstr "Týdny"
+
+msgid "Both"
+msgstr "Obojí"
+
+msgid "Current streak: %1"
+msgstr "Aktuální série: %1"
+
+msgid "Current week streak: %1"
+msgstr "Aktuální týdenní série: %1"
+
+msgid "Longest Streak"
+msgstr "Nejdelší série"
+
+msgid "Total Days Read"
+msgstr "Celkem dní čtení"
+
+msgid "First Read"
+msgstr "První čtení"
+
+msgid "Last Read"
+msgstr "Poslední čtení"
+
+msgid "Progress to goal"
+msgstr "Postup k cíli"
+
+msgid "Current Streak"
+msgstr "Aktuální série"
+
+msgid "Current Week Streak"
+msgstr "Aktuální týdenní série"
+
+msgid "Longest Week Streak"
+msgstr "Nejdelší týdenní série"
+
+msgid "Today's Pages Read"
+msgstr "Dnes přečtené strany"
+
+msgid "Today's Reading Time"
+msgstr "Dnešní čas čtení"
+
+msgid "This Week's Reading Time"
+msgstr "Čas čtení tento týden"
+
+msgid "%1 seconds"
+msgstr "%1 sekund"
+
+msgid "UI Integration"
+msgstr "Integrace do rozhraní"
+
+msgid "Export to Project Title"
+msgstr "Exportovat do Project Title"
+
+msgid "No streak"
+msgstr "Žádná série"

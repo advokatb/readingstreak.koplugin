@@ -4,7 +4,19 @@ local StreakNotifications = require("streak_notifications")
 local _ = require("lib/readingstreak_i18n").gettext
 local os = os
 
-local MAX_TRACKED_INTERVAL = 45 * 60
+-- KOReader's own default for "Max. read time per page" (Reading statistics)
+local DEFAULT_MAX_TRACKED_INTERVAL = 120
+
+-- Cap the time credited per page turn with the user's "Max. read time per page"
+-- from Reading statistics, so idle time is discarded exactly as in the statistics.
+local function getMaxTrackedInterval()
+    local stats_settings = G_reader_settings and G_reader_settings:readSetting("statistics")
+    local max_sec = type(stats_settings) == "table" and tonumber(stats_settings.max_sec)
+    if max_sec and max_sec > 0 then
+        return max_sec
+    end
+    return DEFAULT_MAX_TRACKED_INTERVAL
+end
 
 local DailyProgress = {}
 
@@ -63,7 +75,7 @@ function DailyProgress.updateDailyProgress(reading_streak, pageno)
         if reading_streak.last_page_update_time then
             local diff = now - reading_streak.last_page_update_time
             if diff > 0 then
-                diff = math.min(diff, MAX_TRACKED_INTERVAL)
+                diff = math.min(diff, getMaxTrackedInterval())
                 progress.duration = (progress.duration or 0) + diff
                 progress_changed = true
             end

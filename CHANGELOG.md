@@ -1,6 +1,11 @@
 # Changelog
 
-## [1.5.0] - 2026-09-09
+## [1.5.1] - 2026-11-01
+
+### Fixed
+- Cap daily reading-time credits per page turn with KOReader's **Max. read time per page** (`statistics.max_sec`, default 120 s) instead of a hard-coded 45 minutes, so idle time with an open book no longer inflates the daily time target ([#19](https://github.com/advokatb/readingstreak.koplugin/issues/19)).
+
+## [1.5.0] - 2026-09-04
 
 ### Added
 - **Colors** settings submenu on colour screens (Settings → **Colors**):
